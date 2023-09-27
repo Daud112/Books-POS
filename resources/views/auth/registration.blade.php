@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <div class="card">
-                    <h3 class="card-header text-center">Register User</h3>
+                    <h3 class="card-header text-center">Register New User</h3>
                     <div class="card-body">
                         <form action="{{ route('register.custom') }}" method="POST">
                             @csrf
@@ -21,6 +21,23 @@
                                     name="email" required autofocus>
                                 @if ($errors->has('email'))
                                 <span class="text-danger">{{ $errors->first('email') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group mb-3">
+                                <input type="text" placeholder="Phone" id="phone" class="form-control" name="phone"
+                                    autofocus>
+                                @if ($errors->has('phone'))
+                                <span class="text-danger">{{ $errors->first('phone') }}</span>
+                                @endif
+                            </div>
+                            <div class="form-group mb-3">
+                                <select id="role" class="form-control" name="role">
+                                  <option selected>Choose...</option>
+                                  <option value="shopworker">Shop Worker</option>
+                                  <option value="admin">Admin</option>
+                                </select>
+                                @if ($errors->has('role'))
+                                <span class="text-danger">{{ $errors->first('role') }}</span>
                                 @endif
                             </div>
                             <div class="form-group mb-3">

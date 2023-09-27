@@ -46,6 +46,8 @@ class CustomAuthController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
+            'phone' => 'required|min:11|max:12',
+            'role' => 'required'
         ]);
            
         $data = $request->all();
@@ -59,7 +61,8 @@ class CustomAuthController extends Controller
       return User::create([
         'name' => $data['name'],
         'email' => $data['email'],
-        'phone' => '123',
+        'phone' => $data['phone'],
+        'role' => $data['role'],
         'password' => Hash::make($data['password'])
       ]);
     }    

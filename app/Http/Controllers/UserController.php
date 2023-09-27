@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.user.create');
     }
 
     /**
@@ -43,7 +43,8 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::find($id);
+        return view('admin.user.show', compact('user'));
     }
 
     /**
@@ -59,7 +60,33 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validate the request data.
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required|min:11|max:11',
+            'role' => 'required'
+        ]);
+
+        // Retrieve the user by ID.
+        $user = User::find($id);
+
+        if (!$user) {
+            // Handle the case where the user with the given ID is not found.
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        // Update the other user attributes.
+        $user->name = $request->input('name');
+        $user->phone = $request->input('phone');
+        $user->role = $request->input('role');
+        $user->email = $user->email;
+
+        // Save the updated user.
+        if($user->save()){
+            $users = User::all();
+            return view('admin.user.index', compact('users'));
+        }
+   
     }
 
     /**
