@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Hash;
 use Session;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CustomAuthController extends Controller
@@ -33,7 +33,7 @@ class CustomAuthController extends Controller
 
     public function registration()
     {
-        {
+        if(Auth::check()){
             return view('auth.registration');
         }
           
