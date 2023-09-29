@@ -2,26 +2,49 @@
   background-color: #e3f2fd;
 }
 
-#sidebar {
-  width: 220px;
-  height: 100%;
-  background: #000;
+html,
+body, .container-fluid { height: 100%; }
+ 
+body, .container-fluid {
+  display: table;
+  width: 100%;
 }
 
-#sidebar a {
-  padding: 8px 8px 8px 32px;
+header {
+  background-color:#333;
+  color:#fff;
+}
+
+.sidebar {
+  background-color:#EEE;
+  display:table-cell;
+  height:100%;
+}
+
+.sidebar a {
   text-decoration: none;
   font-size: 25px;
   color: #818181;
   display: block;
-  transition: 0.3s;
 }
 
-#sidebar a:hover {
+.sidebar a:hover {
   color: #f1f1f1;
 }
 
 @media screen and (max-height: 450px) {
-  #sidebar {padding-top: 15px;}
-  #sidebar a {font-size: 18px;}
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
 }
+
+.main {
+
+  height:100%;
+}
+ 
+/* .page-row {
+  display: table-row;
+  height: 1px;
+} */
+ 
+.page-row-expanded { height: 100%; }
