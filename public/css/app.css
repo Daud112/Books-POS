@@ -18,7 +18,6 @@ header {
 .sidebar {
   background-color:#EEE;
   display:table-cell;
-  height:100%;
 }
 
 .sidebar a {
