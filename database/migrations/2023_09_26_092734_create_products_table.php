@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('desc');
-            $table->string('bar_code')->unique();
+            $table->json('bar_code')->nullable();
             $table->decimal('market_price');
             $table->decimal('disc_on_buy');
             $table->decimal('disc_for_customer');
