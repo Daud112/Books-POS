@@ -2,8 +2,8 @@
 @section('content')
 
 <div class="row justify-content-center">
-    <div class="listing-users ">
-        <table class="table table-hover ">
+    <div class="table-responsive p-5">
+        <table class="table table-hover my-5">
             <thead>
             <tr>
                 <th scope="col">User Name</th>
