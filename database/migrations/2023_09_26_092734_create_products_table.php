@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('desc');
-            $table->json('bar_code')->nullable();
-            $table->decimal('market_price');
-            $table->decimal('disc_on_buy');
-            $table->decimal('disc_for_customer');
-            $table->integer('stock');
+            $table->string('title');
+            $table->string('author');
+            $table->text('description');
+            $table->string('isbn')->unique();
+            $table->string('genre');
+            $table->decimal('buy_price');
+            $table->decimal('sale_price');
+            $table->decimal('disc');
+            $table->integer('quantity');
+            $table->date('published_date');
+            $table->string('publisher');
+            $table->string('cover_image_path')->nullable();
             $table->timestamps();
         });
     }
