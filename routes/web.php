@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +28,8 @@ Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout')
 Route::get('users', [UserController::class, 'index'])->name('users');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('show-user');
 Route::post('/user/{id}', [UserController::class, 'update'])->name('update-user');
+
+
+Route::get('products', [ProductController::class, 'index'])->name('products');
+Route::get('/add/product', [ProductController::class, 'create'])->name('product-create');
+Route::post('/add/product', [ProductController::class, 'store'])->name('product.store');
