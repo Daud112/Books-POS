@@ -17,8 +17,8 @@ class ProductController extends Controller
             return view('auth.login');
         }
 
-       
-        // return view('admin.user.index', compact('users'));
+        $products = Product::all();
+        return view('admin.product.index', compact('products'));
     }
 
     /**
@@ -41,6 +41,8 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|unique:products',
             'isbn' => 'required|unique:products|min:13|max:13',
+            'publisher' => 'required',
+            'published_date' => 'required',
             'buy_price' => 'required',
             'sale_price' => 'required',
             'quantity' => 'required',
