@@ -47,3 +47,8 @@ header {
 } */
  
 .page-row-expanded { height: 100%; }
+
+.product-cover-image img{
+  max-height: 700px;
+  height: 700px;
+}
