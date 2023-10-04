@@ -2,6 +2,9 @@
 @section('content')
 
 <div class="row justify-content-center">
+    <h1 class="fs-3 text-dark text-center fw-bold my-5">Products List</h1>
+    @include('layouts.partials.error')
+    @include('layouts.partials.success')
     <div class="table-responsive p-5">
         <table class="table table-hover my-5">
             <thead>
@@ -30,8 +33,8 @@
                             <button type="button" class="btn btn-dark d-flex my-1">
                                 <a href="{{ route('show-product', [$product->id]) }}">View</a>
                             </button>
-                            <button type="button" class="btn btn-dark">
-                                <a href="{{ route('show-product', [$product->id]) }}">Edit</a>
+                            <button type="button" class="btn btn-success">
+                                <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
                             </button>
                         </th>
                     </tr>
