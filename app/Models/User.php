@@ -26,6 +26,16 @@ class User extends Authenticatable
         'role',
     ];
 
+    public function isAdmin()
+    {
+        return $this->role == 'admin';
+    }
+
+    public function isShopWorker()
+    {
+        return $this->role == 'shop_worker';
+    }
+
     public function sales()
     {
     	return $this->hasMany(Sale::class);
