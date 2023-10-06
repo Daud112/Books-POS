@@ -11,6 +11,11 @@ use App\Models\ProductSale;
 class Sale extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'status',
+        'sale_datetime',
+        'user_id'
+    ];
 
     public function customer()
     {
