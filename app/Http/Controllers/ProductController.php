@@ -42,8 +42,6 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required|unique:products',
             'isbn' => 'required|unique:products|min:13|max:13',
-            'publisher' => 'required',
-            'published_date' => 'required',
             'buy_price' => 'required',
             'sale_price' => 'required',
             'quantity' => 'required',
@@ -86,7 +84,9 @@ class ProductController extends Controller
         }
         
         Product::create($product_data);
-        return view('admin.product.create')->withSuccess('Product is created successfully');;
+
+        $products = Product::all();
+        return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');;
     }
     
 
@@ -116,8 +116,6 @@ class ProductController extends Controller
         $request->validate([
             'title' => 'required',
             'isbn' => 'required|min:13|max:13',
-            'publisher' => 'required',
-            'published_date' => 'required',
             'buy_price' => 'required',
             'sale_price' => 'required',
             'quantity' => 'required',

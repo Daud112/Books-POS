@@ -7,6 +7,6 @@
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('products') }}">List</a>
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('product-create') }}">Create</a>
     </div>
-    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#">POS</a>
+    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-sale') }}">POS</a>
     <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('users') }}">Users</a>
 </div>

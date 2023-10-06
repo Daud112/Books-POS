@@ -14,15 +14,15 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->string('author');
+            $table->string('author')->nullable();
             $table->string('isbn')->unique();
-            $table->string('genre');
+            $table->string('genre')->nullable();
             $table->decimal('buy_price');
             $table->decimal('sale_price');
-            $table->decimal('disc');
+            $table->decimal('disc')->nullable();
             $table->integer('quantity');
-            $table->date('published_date');
-            $table->string('publisher');
+            $table->date('published_date')->nullable();
+            $table->string('publisher')->nullable();
             $table->string('cover_image_path')->nullable();
             $table->timestamps();
         });

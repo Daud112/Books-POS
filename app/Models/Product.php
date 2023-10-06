@@ -12,15 +12,10 @@ class Product extends Model
 
     protected $fillable = [
         'title',
-        'author',
         'isbn',
-        'genre',
         'buy_price',
         'sale_price',
-        'disc',
         'quantity',
-        'published_date',
-        'publisher',
         'cover_image_path',
     ];
 
