@@ -19,7 +19,6 @@ return new class extends Migration
             $table->decimal('disc')->nullable();
             $table->integer('quantity');
             $table->unsignedBigInteger('sale_id');
-            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
             $table->timestamps();
         });
     }

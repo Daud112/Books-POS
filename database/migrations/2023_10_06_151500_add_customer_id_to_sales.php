@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->string('status');
-            $table->timestamp('sale_datetime');
-            $table->unsignedBigInteger('customer_id')->nullable();
-            $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+        Schema::table('sales', function (Blueprint $table) {
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 
@@ -26,6 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::table('sales', function (Blueprint $table) {
+            $table->dropForeign('sales_customer_id_foreign');
+            $table->dropColumn('customer_id');
+        });
     }
 };
