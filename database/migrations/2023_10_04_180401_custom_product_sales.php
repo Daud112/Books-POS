@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('custom_product_sales', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->decimal('cost');
+            $table->decimal('cost')->nullable();
             $table->decimal('sale_price');
-            $table->decimal('disc');
+            $table->decimal('disc')->nullable();
             $table->integer('quantity');
             $table->unsignedBigInteger('sale_id');
             $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
