@@ -65,13 +65,25 @@
                 @foreach($sale_products as $sale_product)
                   <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
                     <input type="hidden" class="form-control" name="saleproductId" value="{{$sale_product->id}}">
-                    <span class="list-group-item col-md-4 text-success"> <a href="{{ route('show-product', [$product->id]) }}"> {{ $product->title }} </a> </span>
+                    <span class="list-group-item col-md-4 text-success"> 
+                      <a href="{{ route('show-product', [$sale_product->product_id]) }}"> 
+                        @foreach ($products as $product)
+                          @if ($product->id == $sale_product->product_id)
+                            {{ $product->title }}
+                          @endif
+                        @endforeach
+                      </a>
+                    </span>
                     <span class="list-group-item col-md-2 bill-item-sale-price--{{$sale_product->id}}"> {{ $sale_product->sale_price }} </span>
                     <span class="list-group-item col-md-2 px-1">
                       <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc" placeholder="1" value="{{$sale_product->disc}}">
                     </span>
-                    <span class="list-group-item col-md-2 px-1"> 
-                      <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="" name="saleproductQty" placeholder="1" value="{{ $sale_product->quantity }}">
+                    <span class="list-group-item col-md-2 px-1">
+                      @foreach ($products as $product)
+                        @if ($product->id == $sale_product->product_id)
+                          <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="{{$product->quantity}}" name="saleproductQty" placeholder="1" value="{{ $sale_product->quantity }}">
+                        @endif
+                      @endforeach
                     </span>
                     <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
                   </div>
