@@ -59,7 +59,7 @@
                 @foreach($sale_products as $sale_product)
                   <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
                     <input type="hidden" class="form-control" name="saleproductId" value="{{$sale_product->id}}">
-                    <span class="list-group-item col-md-4"> {{ $sale_product->title }} </span>
+                    <span class="list-group-item col-md-4 text-success"> <a href="{{ route('show-product', [$product->id]) }}"> {{ $product->title }} </a> </span>
                     <span class="list-group-item col-md-2 bill-item-sale-price--{{$sale_product->id}}"> {{ $sale_product->sale_price }} </span>
                     <span class="list-group-item col-md-2 px-1">
                       <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc" placeholder="1" value="{{$sale_product->disc}}">
