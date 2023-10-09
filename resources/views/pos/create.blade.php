@@ -82,7 +82,7 @@
                     </span>
                     <span class="list-group-item col-md-2 bill-item-sale-price--{{$sale_product->id}}"> {{ $sale_product->sale_price }} </span>
                     <span class="list-group-item col-md-2 px-1">
-                      <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc" placeholder="1" value="{{$sale_product->disc}}">
+                      <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" max="{{ $sale_product->sale_price }}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc" placeholder="1" value="{{$sale_product->disc}}">
                     </span>
                     <span class="list-group-item col-md-2 px-1">
                       <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="{{ $productData['Product_' . $sale_product->product_id]['qty'] }}" name="saleproductQty" placeholder="1" value="{{ $sale_product->quantity }}">
