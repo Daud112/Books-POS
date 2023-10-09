@@ -16,6 +16,7 @@ class ProductSale extends Model
         'buy_price',
         'sale_price',
         'quantity',
+        'disc',
         'product_id',
         'sale_id',
     ];

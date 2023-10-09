@@ -131,7 +131,11 @@ class SaleController extends Controller
     }
 
     public function create_sale_product($product, $qty, $sale_id)
-    {
+    {  
+        if($product->disc == null){
+            $product->disc = 0;
+        }
+    
         $sale_product_data = [
             'title'  => $product->title,
             'buy_price' => $product->buy_price,
