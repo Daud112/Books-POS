@@ -28,10 +28,36 @@ class SaleController extends Controller
         if(!Auth::check()){
             return view('auth.login');
         }
-
+        $user_id = Auth::user()->id;
         $products = Product::all();
 
-        return view('pos.create', compact('products'));
+        $draft_sale = DB::table('sales')
+                        ->where([
+                            ['status', '=', 'draft'],
+                            ['user_id', '=', $user_id],
+                        ])->first();
+        $sale_products = DB::table('product_sales')
+                            ->where([
+                                ['sale_id', '=', $draft_sale->id],
+                            ])->get();
+        
+
+        $saletotal = [
+            "total_product_price" => 0,
+            "total_disc" => 0,
+            "total_qty" => 0,
+            "total_sale_price" => 0,
+        ];
+
+        foreach($sale_products as $sale){
+            $total_sale_price_raw = ($sale->sale_price-$sale->disc)*$sale->quantity;
+            $saletotal['total_product_price'] += $sale->sale_price;
+            $saletotal['total_disc'] += $sale->disc;
+            $saletotal['total_qty'] += $sale->quantity;
+            $saletotal['total_sale_price'] += $total_sale_price_raw;
+        }
+
+        return view('pos.create', compact('products','sale_products','saletotal'));
     }
 
     /**

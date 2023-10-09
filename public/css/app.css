@@ -52,3 +52,17 @@ header {
   max-height: 700px;
   height: 700px;
 }
+
+.sale-product {
+  max-width: 250px;
+}
+.sale-product .product-img{
+  max-height: 100%;
+  max-width: 400px;
+  height: 150px;
+}
+
+.bill-items-list{
+  margin: 0px;
+  margin-right: 0px;
+}
