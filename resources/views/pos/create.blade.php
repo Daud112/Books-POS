@@ -59,47 +59,64 @@
         </div>
         <div class="col-md-4 my-4 ">
           <div class="text-success text-center fw-bold fs-5 my-2">Billing</div>
-          <div class="card">
-            <div class="card-header">
-              <div class="row">
-                <span class="col-md-4"> Product </span>
-                <span class="col-md-2"> Price </span>
-                <span class="col-md-2"> Disc </span>
-                <span class="col-md-2"> Qty </span>
-                <span class="col-md-2"> Total </span>
+          <div class="text-success fw-bold fs-6">Customer Details:</div>
+          <form action="{{route('completesale.sale',[$draft_sale->id])}}" method="POST">
+            @csrf
+            <div class="my-4">
+              <div class="input-group mb-2">
+                <input type="text" id="customer_name" name="customer_name" class="form-control" placeholder="Customer Name">
+              </div>
+              <div class="input-group mb-2">
+                <input type="number" id="customer_phone" name="customer_phone" min="11"  class="form-control" placeholder="Customer Phone">
+              </div>
+              <select id="customerSelect" name="selectedCustomerId" class="form-control form-select" aria-label="customer">
+                <option selected value="0">Select a customer</option>
+              </select>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="row">
+                  <span class="col-md-4"> Product </span>
+                  <span class="col-md-2"> Price </span>
+                  <span class="col-md-2"> Disc </span>
+                  <span class="col-md-2"> Qty </span>
+                  <span class="col-md-2"> Total </span>
+                </div>
+              </div>
+              <div class="list-group list-group-flush">
+                @if($sale_products)
+                <input type="hidden" class="form-control" name="saleId" value="{{$draft_sale->id}}">
+                  @foreach($sale_products as $sale_product)
+                    <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
+                      <span class="list-group-item col-md-4 text-success"> 
+                        <a href="{{ route('show-product', [$sale_product->product_id]) }}"> 
+                          {{ $productData['Product_' . $sale_product->product_id]['title'] }}
+                        </a>
+                      </span>
+                      <span class="list-group-item col-md-2 bill-item-sale-price--{{$sale_product->id}}"> {{ $sale_product->sale_price }} </span>
+                      <span class="list-group-item col-md-2 px-1">
+                        <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" max="{{ $sale_product->sale_price }}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc_{{$sale_product->id}}" placeholder="1" value="{{$sale_product->disc}}">
+                      </span>
+                      <span class="list-group-item col-md-2 px-1">
+                        <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="{{ $productData['Product_' . $sale_product->product_id]['qty'] }}" name="saleproductQty_{{$sale_product->id}}" placeholder="1" value="{{ $sale_product->quantity }}">
+                      </span>
+                      <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
+                    </div>
+                  @endforeach
+                @endif
+                  <div class="row bill-items-list">
+                    <span class="list-group-item col-md-4"></span>
+                    <span class="list-group-item col-md-2 bill-item-sale-price"> {{ $saletotal['total_product_price'] }} </span>
+                    <span class="list-group-item col-md-2 bill-item-disc" > {{ $saletotal['total_disc'] }} </span>
+                    <span class="list-group-item col-md-2 bill-item-qty"> {{ $saletotal['total_qty'] }} </span>
+                    <span class="list-group-item col-md-2 bill-item-total"> {{ $saletotal['total_sale_price'] }} </span>
+                  </div>
               </div>
             </div>
-            <div class="list-group list-group-flush">
-              <form class="row" action="{{route('store.sale')}}" method="POST">
-                @csrf
-                @foreach($sale_products as $sale_product)
-                  <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
-                    <input type="hidden" class="form-control" name="saleproductId" value="{{$sale_product->id}}">
-                    <span class="list-group-item col-md-4 text-success"> 
-                      <a href="{{ route('show-product', [$sale_product->product_id]) }}"> 
-                        {{ $productData['Product_' . $sale_product->product_id]['title'] }}
-                      </a>
-                    </span>
-                    <span class="list-group-item col-md-2 bill-item-sale-price--{{$sale_product->id}}"> {{ $sale_product->sale_price }} </span>
-                    <span class="list-group-item col-md-2 px-1">
-                      <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" max="{{ $sale_product->sale_price }}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc" placeholder="1" value="{{$sale_product->disc}}">
-                    </span>
-                    <span class="list-group-item col-md-2 px-1">
-                      <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="{{ $productData['Product_' . $sale_product->product_id]['qty'] }}" name="saleproductQty" placeholder="1" value="{{ $sale_product->quantity }}">
-                    </span>
-                    <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
-                  </div>
-                @endforeach
-              </form>
-                <div class="row bill-items-list">
-                  <span class="list-group-item col-md-4"></span>
-                  <span class="list-group-item col-md-2 bill-item-sale-price"> {{ $saletotal['total_product_price'] }} </span>
-                  <span class="list-group-item col-md-2 bill-item-disc" > {{ $saletotal['total_disc'] }} </span>
-                  <span class="list-group-item col-md-2 bill-item-qty"> {{ $saletotal['total_qty'] }} </span>
-                  <span class="list-group-item col-md-2 bill-item-total"> {{ $saletotal['total_sale_price'] }} </span>
-                </div>
+            <div class="d-flex justify-content-center my-4">
+              <button type="submit" class="btn btn-success">Create Sale</button>
             </div>
-          </div>  
+          </form>
         </div>
     </div>
 </main>

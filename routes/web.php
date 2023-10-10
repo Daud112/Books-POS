@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\CustomerController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +41,9 @@ Route::post('/product/{id}', [ProductController::class, 'update'])->name('produc
 Route::get('sales', [SaleController::class, 'index'])->name('sales');
 Route::get('sale/create', [SaleController::class, 'create'])->name('create-sale');
 Route::post('sale/create', [SaleController::class, 'store'])->name('store.sale');
+Route::post('sale/create/{id}', [SaleController::class, 'completeSale'])->name('completesale.sale');
 Route::get('sale/{id}', [SaleController::class, 'show'])->name('show-sale');
 Route::get('sale/{id}/edit', [SaleController::class, 'edit'])->name('edit-sale');
 Route::get('sale/{id}', [SaleController::class, 'update'])->name('edit.sale');
+
+Route::get('/search-customers', [CustomerController::class, 'searchCustomers']);

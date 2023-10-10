@@ -15,12 +15,36 @@ class CustomerController extends Controller
         //
     }
 
+
+    public function searchCustomers(Request $request)
+    {
+        $searchTerm = $request->input('term');
+        
+        // Query the database to find matching customers
+        $customers = Customer::where('name', 'like', "%$searchTerm%")
+                            ->orWhere('phone', 'like', "%$searchTerm%")
+                            ->get();
+                            
+        return response()->json($customers);
+    }
+
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
+    public function create($data)
+    {   
+        $data->validate([
+            'name' => 'required',
+            'phone' => 'required|min:11|max:11',
+        ]);
+
+        $customer_data = [
+            'name'  => $data->name,
+            'phone' => $data->phone,
+        ];
+        
+        return Customer::create($customer_data);
     }
 
     /**

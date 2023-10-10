@@ -117,3 +117,35 @@ function get_input_total(ele){
   });
   return total;
 }
+
+
+
+$(document).ready(function () {
+  $('#customer_name, #customer_phone').on('input', function () {
+      var searchTerm = $(this).val();
+      console.log("CUSTOMER SEARCHING");
+      $.ajax({
+          url: '/search-customers',
+          method: 'GET',
+          data: { term: searchTerm },
+          success: function (response) {
+              var customerSelect = $('#customerSelect');
+              customerSelect.empty();
+              customerSelect.append($('<option>', {
+                  value: '0',
+                  text: 'Select a customer',
+                  selected: true,
+              }));
+              $.each(response, function (index, customer) {
+                  customerSelect.append($('<option>', {
+                      value: customer.id,
+                      text: customer.name + ' (' + customer.phone + ')'
+                  }));
+              });
+
+              customerSelect.attr('size', customerSelect.find('option').length);
+
+          }
+      });
+  });
+});
