@@ -47,3 +47,4 @@ Route::get('sale/{id}/edit', [SaleController::class, 'edit'])->name('edit-sale')
 Route::get('sale/{id}', [SaleController::class, 'update'])->name('edit.sale');
 
 Route::get('/search-customers', [CustomerController::class, 'searchCustomers']);
+Route::get('/search-product', [ProductController::class, 'searchProducts']);

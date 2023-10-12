@@ -17,6 +17,12 @@
         <span class="my-3 mx-5" >@include('layouts.partials.success')</span>
         <div class="col-md-8 my-4">
           <div class="row">
+            <div class="input-group mb-5">
+              <input type="text" id="search_product" name="search_product" class="form-control" placeholder="Search Product by Title or ISBN">
+            </div>
+          </div>
+          {{-- CSRF token for JS to search product --}} @csrf
+          <div id="products-listing" class="row">
             @foreach ($products as $product)
               <div class="card sale-product p-0 mb-3 mx-1 border border-3 border-success rounded">
                 <img src="{{asset('cover_images/'. $product->cover_image_path)}}" width="100%" class="img-fluid rounded-start border-bottom rounded product-img" alt="...">

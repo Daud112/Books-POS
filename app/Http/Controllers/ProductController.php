@@ -182,6 +182,17 @@ class ProductController extends Controller
         }
     }
 
+    public function searchProducts(Request $request)
+    {
+        $searchTerm = $request->input('term');
+        // Query the database to find matching products
+        $products = Product::where('title', 'like', "%$searchTerm%")
+                        ->orWhere('isbn', 'like', "%$searchTerm%")
+                        ->get();
+        
+        return response()->json($products);
+    }
+
     /**
      * Remove the specified resource from storage.
      */

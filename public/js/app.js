@@ -10,7 +10,7 @@ var disc_elements = document.querySelectorAll(".item-disc");
 var qty_elements = document.querySelectorAll(".item-qty");
 
 disc_elements.forEach(function (element) {
-  // console.log(element);
+
   element.addEventListener("input", function (e) {
     var classList = e.target.className;
     var regex = /bill-item-disc--(\d+)/;
@@ -24,7 +24,7 @@ disc_elements.forEach(function (element) {
 });
 
 qty_elements.forEach(function (element) {
-  // console.log(element);
+
   element.addEventListener("input", function (e) {
     var classList = e.target.className;
     var regex = /bill-item-qty--(\d+)/;
@@ -121,9 +121,11 @@ function get_input_total(ele){
 
 
 $(document).ready(function () {
+  var base_url = window.location.origin;
+
   $('#customer_name, #customer_phone').on('input', function () {
       var searchTerm = $(this).val();
-      console.log("CUSTOMER SEARCHING");
+
       $.ajax({
           url: '/search-customers',
           method: 'GET',
@@ -148,4 +150,68 @@ $(document).ready(function () {
           }
       });
   });
+
+  $('#search_product').on('input', function () {
+    var searchTerm = $(this).val();
+   
+    $.ajax({
+        url: '/search-product',
+        method: 'GET',
+        data: { 
+          term: searchTerm
+        },
+        success: function (response) {
+          var _token = $('input[name="_token"]').val();
+          var productsContainer = $('#products-listing');
+          productsContainer.empty();
+
+          $.each(response, function (index, product) {
+            var productHtml = `
+                <div class="card sale-product p-0 mb-3 mx-1 border border-3 border-success rounded">
+                    <img src="${base_url}/cover_images/${product.cover_image_path}" width="100%" class="img-fluid rounded-start border-bottom rounded product-img" alt="...">
+                    <div class="row">
+                        <div class="card-body">
+                            <div class="col-md-12 card-title fw-bold text-success text-center">
+                                <a href="${base_url}/product/${product.id}">${product.title}</a>
+                            </div>
+                            <div class="col-md-12 card-isbn"><span class="fw-bold">ISBN:</span> ${product.isbn}</div>
+                            <div class="col-md-12 card-price">
+                                <span class="fw-bold">Price:</span>
+                                ${product.disc > 0 ? `
+                                    <span class="fs-6 text-decoration-line-through">Rs ${product.sale_price}</span>
+                                    <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
+                                ` : `
+                                    <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
+                                `}
+                            </div>
+                            <form class="row" action="${base_url}/sale/create" method="POST">
+                              <input type="hidden" name="_token" value="${_token}" autocomplete="off">
+                                <input type="hidden" class="form-control" name="productId" value="${product.id}">
+                                ${product.quantity > 0 ? `
+                                    <span class="fw-bold">Quantity:</span>
+                                    <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
+                                        <input type="number" id="inputQuantity" min="1" max="${product.quantity}" class="form-control w-50" name="productQty" placeholder="1" value="1">
+                                        <span class="d-flex"> <span>/</span> ${product.quantity}</span>
+                                    </div>
+                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
+                                        <img src="${base_url}/icons/product-add-icon.svg" width="40%" height="40%" class="" alt="Product-Add-Icon">
+                                    </button>
+                                ` : `
+                                    <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
+                                        <div class="text-danger fw-bold">OUT OF STOCK</div>
+                                    </div>
+                                `}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Append the product HTML to the container
+            productsContainer.append(productHtml);
+          });
+        }
+    });
+  });
+
 });
