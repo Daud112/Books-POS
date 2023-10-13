@@ -42,9 +42,10 @@ Route::get('sales', [SaleController::class, 'index'])->name('sales');
 Route::get('sale/create', [SaleController::class, 'create'])->name('create-sale');
 Route::post('sale/create', [SaleController::class, 'store'])->name('store.sale');
 Route::post('sale/create/{id}', [SaleController::class, 'completeSale'])->name('completesale.sale');
-Route::get('sale/{id}', [SaleController::class, 'show'])->name('show-sale');
 Route::get('sale/{id}/edit', [SaleController::class, 'edit'])->name('edit-sale');
 Route::get('sale/{id}', [SaleController::class, 'update'])->name('edit.sale');
 
 Route::get('/search-customers', [CustomerController::class, 'searchCustomers']);
 Route::get('/search-product', [ProductController::class, 'searchProducts']);
+
+Route::get('sale/{id}', [SaleController::class, 'show'])->name('show-sale');

@@ -17,7 +17,15 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $sales = Sale::where('status', 'completed')
+                ->with('productSales', 'customer', 'user')
+                ->get();
+
+        return view('pos.index', compact('sales'));
     }
 
     /**
@@ -159,9 +167,35 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Sale $sale)
+    public function show(Request $request, string $id)
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $saletotal = [
+            "total_buy_price" => 0,
+            "total_price" => 0,
+            "total_disc" => 0,
+            "total_qty" => 0,
+            "total_sale_price" => 0,
+            "total_profilt" => 0,
+        ];
+        $sale = Sale::where('id', $id)
+                    ->with('productSales', 'customer', 'user')
+                    ->get();
+        foreach ($sale[0]->productSales as $sale_product) {
+            $total_sale_price_raw = ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity;
+            $total_profilt_raw = (($sale_product->sale_price-$sale_product->disc)-$sale_product->buy_price)*$sale_product->quantity;
+            $saletotal['total_buy_price'] += $sale_product->buy_price;
+            $saletotal['total_price'] += $sale_product->sale_price;
+            $saletotal['total_disc'] += $sale_product->disc;
+            $saletotal['total_qty'] += $sale_product->quantity;
+            $saletotal['total_sale_price'] += $total_sale_price_raw;
+            $saletotal['total_profilt'] += $total_profilt_raw;
+        }
+
+        return view('pos.view', compact('sale','saletotal'));
     }
 
     /**
