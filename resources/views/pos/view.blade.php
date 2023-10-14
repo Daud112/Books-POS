@@ -45,11 +45,11 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="fs-4 text-dark text-left fw-bold my-4">Products:</div>
-            <table class="table table-hover">
+            <div class="fs-4 text-dark text-left fw-bold my-4">Sold Products:</div>
+            <table class="table table-hover text-center">
                 <thead>
                     <tr>
-                        <th scope="col">Title</th>
+                        <th scope="col" class="text-start">Title</th>
                         <th scope="col">Buy Price</th>
                         <th scope="col">Sale Price</th>
                         <th scope="col">Disc</th>
@@ -61,7 +61,7 @@
                 <tbody>
                     @foreach ($sale->productSales as $product)
                         <tr>
-                            <td class="text-success fw-bold">
+                            <td class="text-success fw-bold text-start">
                                 <a href="{{ route('show-product', [$product->product_id]) }}">{{ $product->title }}</a>
                             </td>
                             <td> {{ $product->buy_price }} </td>    
@@ -74,12 +74,12 @@
                     @endforeach
                     <tr>
                         <td></td>
-                        <td> {{ $saletotal['total_buy_price'] }} </td>
-                        <td> {{ $saletotal['total_price'] }} </td>
-                        <td > {{ $saletotal['total_disc'] }} </td>
-                        <td> {{ $saletotal['total_qty'] }} </td>
-                        <td> {{ $saletotal['total_sale_price'] }} </td>
-                        <td> {{ $saletotal['total_profilt'] }} </td>
+                        <td class="text-success fw-bold"> {{ $saletotal['total_buy_price'] }} </td>
+                        <td class="text-success fw-bold"> {{ $saletotal['total_price'] }} </td>
+                        <td class="text-success fw-bold"> {{ $saletotal['total_disc'] }} </td>
+                        <td class="text-success fw-bold"> {{ $saletotal['total_qty'] }} </td>
+                        <td class="text-success fw-bold"> {{ $saletotal['total_sale_price'] }} </td>
+                        <td class="text-success fw-bold">{{ $saletotal['total_profilt'] }} </td>
                     </tr>
                 </tbody>
             </table>
@@ -89,11 +89,13 @@
 <div class="row d-flex align-items-center justify-content-center">
     <div class="col-1">
         <button type="button" class="btn btn-success w-100">
-            {{-- <a href="{{ route('edit-product', [$product->id]) }}">Edit</a> --}}
+            <a href="{{ route('edit-sale', [$sale->id]) }}">Edit</a>
         </button>
     </div>
     <div class="col-1">
-        <button type="button" class="btn btn-danger w-100">Delete</button>
+        <button type="button" class="btn btn-danger w-100">
+            <a href="{{ route('sales.print', [$sale->id]) }}" target="_blank">Print</a>
+        </button>
     </div>
 </div>
 @endsection

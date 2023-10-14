@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use App\Models\ProductSale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+
 class SaleController extends Controller
 {
     /**
@@ -259,7 +261,7 @@ class SaleController extends Controller
     public function updateSale($id, $customer_id, $date)
     {   
         $sale = Sale::find($id);  
-        $sale->status  = "completed";
+        $sale->status  = "Completed";
         $sale->sale_datetime = $date;
         $sale->customer_id = $customer_id;
         return $sale->save();
@@ -268,9 +270,37 @@ class SaleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Sale $sale)
+    public function printSales(Request $request, string $id)
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $saletotal = [
+            "total_buy_price" => 0,
+            "total_price" => 0,
+            "total_disc" => 0,
+            "total_qty" => 0,
+            "total_sale_price" => 0,
+            "total_profilt" => 0,
+        ];
+        $sale = Sale::where('id', $id)
+                    ->with('productSales', 'customer', 'user')
+                    ->get();
+        foreach ($sale[0]->productSales as $sale_product) {
+            $total_sale_price_raw = ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity;
+            $total_profilt_raw = (($sale_product->sale_price-$sale_product->disc)-$sale_product->buy_price)*$sale_product->quantity;
+            $saletotal['total_buy_price'] += $sale_product->buy_price;
+            $saletotal['total_price'] += $sale_product->sale_price;
+            $saletotal['total_disc'] += $sale_product->disc;
+            $saletotal['total_qty'] += $sale_product->quantity;
+            $saletotal['total_sale_price'] += $total_sale_price_raw;
+            $saletotal['total_profilt'] += $total_profilt_raw;
+        }
+
+        view()->share('pos.print',compact('sale','saletotal'));
+        $pdf = PDF::loadView('pos.print', compact('sale','saletotal'));
+        return $pdf->stream('view_sales.pdf');
     }
 
     /**

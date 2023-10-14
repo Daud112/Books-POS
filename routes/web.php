@@ -49,3 +49,4 @@ Route::get('/search-customers', [CustomerController::class, 'searchCustomers']);
 Route::get('/search-product', [ProductController::class, 'searchProducts']);
 
 Route::get('sale/{id}', [SaleController::class, 'show'])->name('show-sale');
+Route::get('/sales/print/{id}', [SaleController::class, 'printSales'])->name('sales.print');

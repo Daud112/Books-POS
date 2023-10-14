@@ -31,8 +31,8 @@
                             <button type="button" class="btn btn-dark d-flex my-1">
                                 <a href="{{ route('show-sale',[$sale->id]) }}">View</a>
                             </button>
-                            <button type="button" class="btn btn-success">
-                                <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
+                            <button type="button" class="btn btn-danger">
+                                <a href="{{ route('sales.print', [$sale->id]) }}" target="_blank">Print</a>
                             </button>
                         </th>
                     </tr>
