@@ -3,6 +3,11 @@
 
 <div class="row justify-content-center">
     <h1 class="fs-3 text-dark text-center fw-bold my-5">Products List</h1>
+    <div class="px-5 pt-5 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary">
+            <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('product-create') }}">+ Add Product</a>
+        </button>
+    </div>
     @include('layouts.partials.error')
     @include('layouts.partials.success')
     <div class="table-responsive p-5">
@@ -22,7 +27,7 @@
                 @foreach ($products as $product)
                     <tr>
                         <td> 
-                            <img src="{{asset('cover_images/'. $product->cover_image_path)}}" class="img-thumbnail rounded float-start" width="200" height="200" alt="Book Cover Image">
+                            <img src="{{asset('cover_images/'. $product->cover_image_path)}}" class="img-thumbnail rounded float-start" width="100" height="100" alt="Book Cover Image">
                         </th>
                         <td> {{ $product->title }} </th>
                         <td> {{ $product->isbn }} </th>

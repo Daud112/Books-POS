@@ -19,7 +19,7 @@
         Customer
     </a>
     <div class="collapse ml-3" id="customerSubmenu">
-        <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('customers') }}">View</a>
+        <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('customers') }}">List</a>
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-customer') }}">Create</a>
     </div>
 </div>

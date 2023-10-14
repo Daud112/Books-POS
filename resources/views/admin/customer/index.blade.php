@@ -1,8 +1,13 @@
 @extends('dashboard')
 @section('content')
 
-<div class="row justify-content-center">
-    <div class="table-responsive p-5">
+<div class="row d-flex justify-content-center">
+    <div class="px-5 pt-5 d-flex justify-content-end">
+        <button type="button" class="btn btn-primary">
+            <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-customer') }}">+ Add Customer</a>
+        </button>
+    </div>
+    <div class="table-responsive px-5 py-2">
         <table class="table table-hover my-5">
             <thead>
             <tr>
