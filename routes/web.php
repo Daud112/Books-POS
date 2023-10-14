@@ -31,6 +31,12 @@ Route::get('/user/{id}', [UserController::class, 'show'])->name('show-user');
 Route::post('/user/{id}', [UserController::class, 'update'])->name('update-user');
 
 
+Route::get('customers', [CustomerController::class, 'index'])->name('customers');
+Route::get('/customer', [CustomerController::class, 'create'])->name('create-customer');
+Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
+Route::get('/customer/{id}/edit', [CustomerController::class, 'edit'])->name('edit-customer');
+Route::post('/customer/{id}', [CustomerController::class, 'update'])->name('customer.update');
+
 Route::get('products', [ProductController::class, 'index'])->name('products');
 Route::get('/add/product', [ProductController::class, 'create'])->name('product-create');
 Route::post('/add/product', [ProductController::class, 'store'])->name('product.store');

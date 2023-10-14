@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -12,12 +13,20 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $customers = Customer::all();
+        return view('admin.customer.index', compact('customers'));
     }
 
 
     public function searchCustomers(Request $request)
     {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
         $searchTerm = $request->input('term');
         
         // Query the database to find matching customers
@@ -32,19 +41,12 @@ class CustomerController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($data)
-    {   
-        $data->validate([
-            'name' => 'required',
-            'phone' => 'required|min:11|max:11',
-        ]);
-
-        $customer_data = [
-            'name'  => $data->name,
-            'phone' => $data->phone,
-        ];
-        
-        return Customer::create($customer_data);
+    public function create()
+    {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        return view('admin.customer.create');
     }
 
     /**
@@ -52,31 +54,68 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required|unique:customers|min:11|max:11',
+        ]);
+        $data = $request->all();
+
+        $customer_data = [
+            'name'  => $data['name'],
+            'phone' => $data['phone'],
+        ];
+        
+        if(Customer::create($customer_data)){
+            return redirect("customers")->withSuccess('New customer created');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer $customer)
+    public function edit(Request $request, string $id)
     {
-        //
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        $customer = Customer::find($id);
+        return view('admin.customer.edit', compact('customer'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Customer $customer)
+    public function update(Request $request, string $id)
     {
-        //
+        // Validate the request data.
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        $request->validate([
+            'name' => 'required',
+            'phone' => 'required|unique:customers|min:11|max:11',
+        ]);
+
+        // Retrieve the user by ID.
+        $customer = Customer::find($id);
+
+        if (!$customer) {
+            // Handle the case where the customer with the given ID is not found.
+            return response()->json(['error' => 'Customer not found'], 404);
+        }
+
+        // Update the other user attributes.
+        $customer->name = $request->input('name');
+        $customer->phone = $request->input('phone');
+
+        // Save the updated user.
+        if($customer->save()){
+            return redirect("customers")->withSuccess('Updated customer');
+        }
     }
 
     /**
