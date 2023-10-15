@@ -5,7 +5,33 @@
     <h1 class="fs-3 text-dark text-center fw-bold my-5">Sales</h1>
     @include('layouts.partials.error')
     @include('layouts.partials.success')
+    <form class="row g-3" action="{{ route('sales-filter') }}" method="GET">
+        @csrf
+        <div class="col-md-6">
+            <label for="inputStartDate" class="form-label">From Date</label>
+                <input type="date" id="inputsStartDate" class="form-control" placeholder="Start Date" name="start_date" value="{{ $startDate ?? now()->toDateString() }}">
+            @if ($errors->has('start_date'))
+                <span class="text-danger">{{ $errors->first('start_date') }}</span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <label for="inputEndDate" class="form-label">End Date</label>
+            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $startDate ?? now()->toDateString() }}">
+            @if ($errors->has('end_date'))
+                <span class="text-danger">{{ $errors->first('end_date') }}</span>
+            @endif
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </form>
     <div class="table-responsive p-5">
+        @if(count($sales)<1)
+            <tr>
+               <div class="fs-3 text-success text-center fw-bold "> No Product Found</div>
+            </tr>
+
+        @else
         <table class="table table-hover my-5">
             <thead>
                 <tr>
@@ -37,8 +63,10 @@
                         </th>
                     </tr>
                 @endforeach
+                
             </tbody>
         </table>
+        @endif
     </div>
 </div>
 @endsection

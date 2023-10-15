@@ -23,12 +23,33 @@ class SaleController extends Controller
             return view('auth.login');
         }
 
+        $currentDateTime = Carbon::now();
+        $Today = $currentDateTime->toDateTimeString();
+
         $sales = Sale::where('status', 'completed')
+                ->whereBetween('sale_datetime', [$Today, $Today])
                 ->with('productSales', 'customer', 'user')
                 ->get();
 
         return view('pos.index', compact('sales'));
     }
+
+    public function filter(Request $request)
+    {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $sales = Sale::where('status', 'completed')
+                    ->whereBetween('sale_datetime', [$startDate, $endDate])
+                    ->with('productSales', 'customer', 'user')
+                    ->get();
+
+        return view('pos.index', compact('sales','startDate','endDate'));
+    }
+
 
     /**
      * Show the form for creating a new resource.
