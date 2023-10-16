@@ -16,9 +16,22 @@
         </div>
         <div class="col-md-6">
             <label for="inputEndDate" class="form-label">End Date</label>
-            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $startDate ?? now()->toDateString() }}">
+            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $endDate ?? now()->toDateString() }}">
             @if ($errors->has('end_date'))
                 <span class="text-danger">{{ $errors->first('end_date') }}</span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <label for="inputEndDate" class="form-label">User</label>
+            <select id="userSelect" name="selectedUserId" class="form-control form-select" aria-label="user">
+                <option @if($user_id === 0) selected @endif value="0">Select a user</option>
+                <option @if($user_id === "all") selected @endif value="all">All</option>
+                @foreach($users as $user)
+                    <option @if($user_id == $user->id) selected @endif value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+              </select>
+            @if ($errors->has('user'))
+                <span class="text-danger">{{ $errors->first('user') }}</span>
             @endif
         </div>
         <div class="col-12 d-flex justify-content-center">

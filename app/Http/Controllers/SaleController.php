@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use PDF;
 use Carbon\Carbon;
 use App\Models\Sale;
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Customer;
 use App\Models\ProductSale;
@@ -27,10 +28,13 @@ class SaleController extends Controller
         $Today = $currentDateTime->toDateTimeString();
 
         $sales = Sale::where('status', 'completed')
-                ->whereBetween('sale_datetime', [$Today, $Today])
-                ->with('productSales', 'customer', 'user')
-                ->get();
+                    ->where('user_id', Auth::user()->id)
+                    ->whereBetween('sale_datetime', [$Today, $Today])
+                    ->with('productSales', 'customer', 'user')
+                    ->get();
 
+        $users = User::all();
+        $user_id = 0;
         $saletotal = [
             "total_sale_price" => 0,
             "total_disc" => 0,
@@ -47,7 +51,7 @@ class SaleController extends Controller
             }
         }
 
-        return view('pos.index', compact('sales','saletotal'));
+        return view('pos.index', compact('sales','saletotal','users','user_id'));
     }
 
     public function filter(Request $request)
@@ -57,12 +61,27 @@ class SaleController extends Controller
         }
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $user_id = $request->input('selectedUserId');
 
-        $sales = Sale::where('status', 'completed')
-                    ->whereBetween('sale_datetime', [$startDate, $endDate])
-                    ->with('productSales', 'customer', 'user')
-                    ->get();
-
+        if($user_id == "all"){
+            $sales = Sale::where('status', 'completed')
+                        ->whereBetween('sale_datetime', [$startDate, $endDate])
+                        ->with('productSales', 'customer', 'user')
+                        ->get();
+        }elseif($user_id == 0){
+            $sales = Sale::where('status', 'completed')
+                        ->where('user_id', Auth::user()->id)
+                        ->whereBetween('sale_datetime', [$startDate, $endDate])
+                        ->with('productSales', 'customer', 'user')
+                        ->get();
+        }else{
+            $sales = Sale::where('status', 'completed')
+                        ->where('user_id', $user_id)
+                        ->whereBetween('sale_datetime', [$startDate, $endDate])
+                        ->with('productSales', 'customer', 'user')
+                        ->get();
+        }
+        $users = User::all();
         $saletotal = [
             "total_sale_price" => 0,
             "total_disc" => 0,
@@ -79,7 +98,7 @@ class SaleController extends Controller
             }
         }
 
-        return view('pos.index', compact('sales','startDate','endDate','saletotal'));
+        return view('pos.index', compact('sales','startDate','endDate','saletotal','users', 'user_id'));
     }
 
 
