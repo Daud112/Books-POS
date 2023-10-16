@@ -32,6 +32,29 @@
             </tr>
 
         @else
+            <div class="card my-5 text-center fw-bold fs-6">
+                <div class="card-header ">
+                Sales & Profit
+                </div>
+                <div class="card-body row ">
+                    <div class="col-md-3 ">
+                        <div> No of Sales</div>
+                        <div class="text-success fs-4 mt-3"> {{count($sales)}}</div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div>Total Sale Price</div>
+                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['total_sale_price'] }} </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div>Total Discount's</div>
+                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['total_disc'] }} </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <div>Total Profit</div>
+                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['profit'] }} </div>
+                    </div>
+                </div>
+            </div>
         <table class="table table-hover my-5">
             <thead>
                 <tr>

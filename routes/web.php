@@ -45,6 +45,7 @@ Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('edit
 Route::post('/product/{id}', [ProductController::class, 'update'])->name('product.update');
 
 Route::get('sales', [SaleController::class, 'index'])->name('sales');
+Route::get('/sales/filter', [SaleController::class, 'filter'])->name('sales-filter');
 Route::get('sale/create', [SaleController::class, 'create'])->name('create-sale');
 Route::post('sale/create', [SaleController::class, 'store'])->name('store.sale');
 Route::post('sale/create/{id}', [SaleController::class, 'completeSale'])->name('completesale.sale');

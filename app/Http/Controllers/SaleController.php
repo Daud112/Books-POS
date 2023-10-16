@@ -31,7 +31,23 @@ class SaleController extends Controller
                 ->with('productSales', 'customer', 'user')
                 ->get();
 
-        return view('pos.index', compact('sales'));
+        $saletotal = [
+            "total_sale_price" => 0,
+            "total_disc" => 0,
+            "profit" => 0,
+        ];
+        
+        foreach ($sales as $sale){
+            foreach ($sale->productSales as $product){
+                $total_sale_price_raw = ($product->sale_price-$product->disc)*$product->quantity;
+                $total_profit_raw = (($product->sale_price-$product->disc)-$product->buy_price)*$product->quantity;
+                $saletotal['profit'] += $total_profit_raw;
+                $saletotal['total_disc'] += $product->disc;
+                $saletotal['total_sale_price'] += $total_sale_price_raw;
+            }
+        }
+
+        return view('pos.index', compact('sales','saletotal'));
     }
 
     public function filter(Request $request)
@@ -47,7 +63,23 @@ class SaleController extends Controller
                     ->with('productSales', 'customer', 'user')
                     ->get();
 
-        return view('pos.index', compact('sales','startDate','endDate'));
+        $saletotal = [
+            "total_sale_price" => 0,
+            "total_disc" => 0,
+            "profit" => 0,
+        ];
+        
+        foreach ($sales as $sale){
+            foreach ($sale->productSales as $product){
+                $total_sale_price_raw = ($product->sale_price-$product->disc)*$product->quantity;
+                $total_profit_raw = (($product->sale_price-$product->disc)-$product->buy_price)*$product->quantity;
+                $saletotal['profit'] += $total_profit_raw;
+                $saletotal['total_disc'] += $product->disc;
+                $saletotal['total_sale_price'] += $total_sale_price_raw;
+            }
+        }
+
+        return view('pos.index', compact('sales','startDate','endDate','saletotal'));
     }
 
 
