@@ -64,6 +64,7 @@ class ProductController extends Controller
             'quantity' => $data['quantity'],
             'published_date' => $data['published_date'],
             'publisher' => $data['publisher'],
+            'type' => 'new'
         ];
 
         if ($request->hasFile('cover_image')) {
@@ -213,6 +214,7 @@ class ProductController extends Controller
             'sale_price' => $data['sale_price'],
             'quantity' => -1,
             'disc' => $data['disc'],
+            'type' => 'custom',
         ];
 
         if ($request->hasFile('cover_image')) {
