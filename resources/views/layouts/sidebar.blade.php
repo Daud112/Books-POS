@@ -6,6 +6,7 @@
     <div class="collapse ml-3" id="productsSubmenu">
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('products') }}">List</a>
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('product-create') }}">Create</a>
+        <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('custom-product-create') }}">Create Custom </a>
     </div>
     <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#posSubmenu" data-bs-toggle="collapse" role="button">
         POS

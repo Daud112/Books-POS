@@ -39,6 +39,8 @@ Route::post('/customer/{id}', [CustomerController::class, 'update'])->name('cust
 
 Route::get('products', [ProductController::class, 'index'])->name('products');
 Route::get('/add/product', [ProductController::class, 'create'])->name('product-create');
+Route::get('/add/custom/product', [ProductController::class, 'createCustomProduct'])->name('custom-product-create');
+Route::post('/add/custom/product', [ProductController::class, 'storeCustomProduct'])->name('custom-product-store');
 Route::post('/add/product', [ProductController::class, 'store'])->name('product.store');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('show-product');
 Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('edit-product');

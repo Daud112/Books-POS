@@ -86,7 +86,7 @@ class ProductController extends Controller
         Product::create($product_data);
 
         $products = Product::all();
-        return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');;
+        return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');
     }
     
 
@@ -180,6 +180,62 @@ class ProductController extends Controller
         }else{
             return back()->with('error', 'Product is not updated!');
         }
+    }
+
+    public function createCustomProduct(Request $request)
+    {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+        
+        return view('admin.product.create_custom');
+    }
+    
+    public function storeCustomProduct(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|unique:products',
+            'isbn' => 'required|unique:products|min:12|max:12', //ISBN is barcode for custom products
+            'cost_price' => 'required',
+            'sale_price' => 'required',
+            'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
+        ]);
+        $data = $request->all();
+
+        if($data['cost_price'] == $data['sale_price'] || $data['cost_price'] > $data['sale_price']){
+            return back()->with('error', 'Sale price should be greater than Cost price!');
+        }
+
+        $product_data = [
+            'title'  => $data['title'],
+            'isbn' => $data['isbn'], //ISBN is barcode for custom products
+            'buy_price' => $data['cost_price'],
+            'sale_price' => $data['sale_price'],
+            'quantity' => -1,
+            'disc' => $data['disc'],
+        ];
+
+        if ($request->hasFile('cover_image')) {
+            $path = public_path('cover_images/');
+            !is_dir($path) && mkdir($path, 0777, true);
+           
+            $imageName = $data['barcode'] . '.' . $request->file('cover_image')->getClientOriginalExtension();
+            
+            if (file_exists($path . $imageName)) {
+                // If it exists, delete the old image
+                unlink($path . $imageName);
+            }
+            $request->file('cover_image')->move($path, $imageName);
+
+            $product_data['cover_image_path'] = $imageName;
+        }else{
+            $product_data['cover_image_path'] = "default_cover.png";
+        }
+        
+        Product::create($product_data);
+
+        $products = Product::all();
+        return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');
     }
 
     public function searchProducts(Request $request)
