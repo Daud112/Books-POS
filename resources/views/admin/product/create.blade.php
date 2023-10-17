@@ -65,28 +65,28 @@
             </div>
             <div class="col-md-6">
                 <label for="inputBuyPrice" class="form-label">Buy Price</label>
-                <input type="number" id="inputBuyPrice" class="form-control" placeholder="Product Buy Price" name="buy_price" aria-label="Buy Price">
+                <input type="number" id="inputBuyPrice" class="form-control" placeholder="Product Buy Price" min="0" value="0" name="buy_price" aria-label="Buy Price">
                 @if ($errors->has('buy_price'))
                     <span class="text-danger">{{ $errors->first('buy_price') }}</span>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="inputSalePrice" class="form-label">Sale Price</label>
-                <input type="number" id="inputSalePrice" class="form-control" placeholder="Product Sale Price" name="sale_price" aria-label="Sale Price">
+                <input type="number" id="inputSalePrice" class="form-control" placeholder="Product Sale Price" min="0" value="0" name="sale_price" aria-label="Sale Price">
                 @if ($errors->has('sale_price'))
                     <span class="text-danger">{{ $errors->first('sale_price') }}</span>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="inputSaleDisc" class="form-label">Sale Discount</label>
-                <input type="number" id="inputSaleDisc" class="form-control" placeholder="Product Sale Disc" name="disc" aria-label="Sale Disc">
+                <input type="number" id="inputSaleDisc" class="form-control" placeholder="Product Sale Disc" min="0" value="0" name="disc" aria-label="Sale Disc">
                 @if ($errors->has('disc'))
                     <span class="text-danger">{{ $errors->first('disc') }}</span>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="inputqty" class="form-label">Stock</label>
-                <input type="number" id="inputqty" class="form-control" placeholder="Stock" aria-label="Stock" name="quantity">
+                <input type="number" id="inputqty" class="form-control" placeholder="Stock" aria-label="Stock" value="0" name="quantity">
                 @if ($errors->has('quantity'))
                     <span class="text-danger">{{ $errors->first('quantity') }}</span>
                 @endif

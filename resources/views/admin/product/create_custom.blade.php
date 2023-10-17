@@ -37,21 +37,21 @@
             </div>
             <div class="col-md-6">
                 <label for="inputBuyPrice" class="form-label">Cost Price</label>
-                <input type="number" id="inputBuyPrice" class="form-control" placeholder="Product Cost Price" name="cost_price" aria-label="Cost Price">
+                <input type="number" id="inputBuyPrice" class="form-control" placeholder="Product Cost Price" value="0" name="cost_price" aria-label="Cost Price">
                 @if ($errors->has('cost_price'))
                     <span class="text-danger">{{ $errors->first('cost_price') }}</span>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="inputSalePrice" class="form-label">Sale Price</label>
-                <input type="number" id="inputSalePrice" class="form-control" placeholder="Product Sale Price" name="sale_price" aria-label="Sale Price">
+                <input type="number" id="inputSalePrice" class="form-control" placeholder="Product Sale Price" value="0" name="sale_price" aria-label="Sale Price">
                 @if ($errors->has('sale_price'))
                     <span class="text-danger">{{ $errors->first('sale_price') }}</span>
                 @endif
             </div>
             <div class="col-md-6">
                 <label for="inputSaleDisc" class="form-label">Sale Discount</label>
-                <input type="number" id="inputSaleDisc" class="form-control" placeholder="Product Sale Disc" name="disc" aria-label="Sale Disc">
+                <input type="number" id="inputSaleDisc" class="form-control" placeholder="Product Sale Disc" name="disc" min='0' value="0" aria-label="Sale Disc">
                 @if ($errors->has('disc'))
                     <span class="text-danger">{{ $errors->first('disc') }}</span>
                 @endif

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('sale_price');
             $table->decimal('disc')->nullable();
             $table->integer('quantity');
+            $table->string('type');
             $table->date('published_date')->nullable();
             $table->string('publisher')->nullable();
             $table->string('cover_image_path')->nullable();

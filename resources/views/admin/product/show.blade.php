@@ -14,6 +14,7 @@
                     <td> <span class="fw-bold">ISBN</span> </td>
                     <td> {{ $product->isbn }} </td>
                 </tr>
+                @if($product->type == 'new')
                 <tr>
                     <td> <span class="fw-bold">Author</span> </td>
                     <td> {{ $product->author }} </td>
@@ -30,10 +31,16 @@
                     <td> <span class="fw-bold">Published Date</span> </td>
                     <td> {{ $product->published_date }} </td>
                 </tr>
+                @endif
             </tbody>
         </table>
         <div class="alert alert-secondary my-4 text-success fw-bold fs-5" role="alert">
-            <span class="">Avaible Stock:</span> {{ $product->quantity }}
+            <span class="">Avaible Stock:</span> 
+            @if($product->type == 'custom')
+                <span class="border rounded-5 p-2 bg-success text-white">unlimited</span>
+            @else
+                {{ $product->quantity }}
+            @endif
         </div>
         <div class="card my-5 text-center fw-bold fs-6">
             <div class="card-header ">
@@ -52,10 +59,12 @@
                     <div>Discount on Sale</div>
                     <div class="text-success fs-4 mt-3">Rs{{ $product->disc }} </div>
                 </div>
-                <div class="col-md-3 ">
-                    <div>Your Profit</div>
-                    <div class="text-success fs-4 mt-3">Rs{{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
-                </div>
+                @if($product->type !== 'custom')
+                    <div class="col-md-3 ">
+                        <div>Your Profit</div>
+                        <div class="text-success fs-4 mt-3">Rs{{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
+                    </div>
+                @endif
             </div>
           </div>
     </div>

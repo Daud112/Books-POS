@@ -14,9 +14,9 @@
         <table class="table table-hover my-5">
             <thead>
                 <tr>
-                    <th scope="col">Cover Image</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Title</th>
-                    <th scope="col">ISBN</th>
+                    <th scope="col">ISBN/Barcode</th>
                     <th scope="col">Sale Price</th>
                     <th scope="col">Disc</th>
                     <th scope="col">Quantity</th>
@@ -33,7 +33,13 @@
                         <td> {{ $product->isbn }} </th>
                         <td> {{ $product->sale_price }} </th>    
                         <td> {{ $product->disc }} </th>
-                        <td> {{ $product->quantity }} </th>
+                        <td> 
+                            @if($product->quantity == -1)
+                                <span class="border rounded-5 p-2 bg-success text-white">unlimited</span>
+                            @else
+                                <span class="border rounded-5 px-3 py-1 bg-success text-white"> {{ $product->quantity }} </span>
+                            @endif
+                        </th>
                         <td>
                             <button type="button" class="btn btn-dark d-flex my-1">
                                 <a href="{{ route('show-product', [$product->id]) }}">View</a>
