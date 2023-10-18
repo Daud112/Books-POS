@@ -6,6 +6,8 @@ use App\Http\Controllers\SaleController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ExpenseController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -59,3 +61,11 @@ Route::get('/search-product', [ProductController::class, 'searchProducts']);
 
 Route::get('sale/{id}', [SaleController::class, 'show'])->name('show-sale');
 Route::get('/sales/print/{id}', [SaleController::class, 'printSales'])->name('sales.print');
+
+
+Route::get('expenses', [ExpenseController::class, 'index'])->name('expenses');
+Route::get('/expense', [ExpenseController::class, 'create'])->name('create-expense');
+Route::post('/expense', [ExpenseController::class, 'store'])->name('expense.store');
+Route::get('expense/{id}', [ExpenseController::class, 'show'])->name('show-expense');
+Route::get('/expense/{id}/edit', [ExpenseController::class, 'edit'])->name('edit-expense');
+Route::post('/expense/{id}', [ExpenseController::class, 'update'])->name('expense.update');

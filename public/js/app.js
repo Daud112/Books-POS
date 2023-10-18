@@ -214,4 +214,13 @@ $(document).ready(function () {
     });
   });
 
+  document.getElementById('payment_method').addEventListener('change', function() {
+    var onlinePaymentNumberField = document.getElementById('online_payment_number_field');
+    if (this.value === 'online') {
+        onlinePaymentNumberField.style.display = 'block';
+    } else {
+        onlinePaymentNumberField.style.display = 'none';
+    }
+  });
+  
 });

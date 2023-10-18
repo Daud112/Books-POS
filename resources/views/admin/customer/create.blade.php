@@ -2,7 +2,7 @@
 @section('content')
 <main class="signup-form">
     <div class="row d-flex justify-content-center my-5">
-        <h1 class="fs-3 text-dark text-center fw-bold my-3">Edit Customer</h1>
+        <h1 class="fs-3 text-dark text-center fw-bold my-3">Create Customer</h1>
         @include('layouts.partials.error')
         @include('layouts.partials.success')
         <form class="row g-3" action="{{ route('customer.store') }}" method="POST">

@@ -301,10 +301,12 @@ class SaleController extends Controller
             $productSale->quantity = $saled_qty;
             if($productSale->save()){
                 $sys_product = Product::find($productSale->product_id);
-                $new_qty = $sys_product->quantity-$saled_qty;
-                $sys_product->quantity = $new_qty;
-                if(!$sys_product->save()){
-                    return back()->with('error', 'Product id['. $sys_product->id.'] not qty not updated!');
+                if($sys_product->type == 'new'){
+                    $new_qty = $sys_product->quantity-$saled_qty;
+                    $sys_product->quantity = $new_qty;
+                    if(!$sys_product->save()){
+                        return back()->with('error', 'Product id['. $sys_product->id.'] not qty not updated!');
+                    }
                 }
             }else{
                 return back()->with('error', 'Sold product id['. $sale_product->id.'] not added in sale!');
