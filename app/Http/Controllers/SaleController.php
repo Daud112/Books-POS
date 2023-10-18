@@ -295,10 +295,20 @@ class SaleController extends Controller
         $sale_products = ProductSale::where('sale_id', '=', "$sale_id")->get();
         
         foreach($sale_products as $sale_product){
-            $productSale = ProductSale::find($sale_product->id);  
+            $productSale = ProductSale::find($sale_product->id);
+            $saled_qty = $data['saleproductQty_' . $sale_product->id];
             $productSale->disc = $data['saleproductDisc_' . $sale_product->id];
-            $productSale->quantity = $data['saleproductQty_' . $sale_product->id];
-            $productSale->save();
+            $productSale->quantity = $saled_qty;
+            if($productSale->save()){
+                $sys_product = Product::find($productSale->product_id);
+                $new_qty = $sys_product->quantity-$saled_qty;
+                $sys_product->quantity = $new_qty;
+                if(!$sys_product->save()){
+                    return back()->with('error', 'Product id['. $sys_product->id.'] not qty not updated!');
+                }
+            }else{
+                return back()->with('error', 'Sold product id['. $sale_product->id.'] not added in sale!');
+            }
         }
         
         if(!$customer_id){

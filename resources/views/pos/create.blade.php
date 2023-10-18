@@ -42,12 +42,20 @@
                     <form class="row" action="{{route('store.sale')}}" method="POST">
                       @csrf
                       <input type="hidden" class="form-control" name="productId" value="{{$product->id}}"> 
-                        @if($product->quantity>0)       
+                        @if($product->type == 'new' && $product->quantity>0)       
                           <span class="fw-bold">Quantity:</span>
                           <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">  
                             <input type="number" id="inputQuantity" min="1" max="{{ $product->quantity }}" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
                             <span class="d-flex"> <span>/</span> {{ $product->quantity }}</span>
                           </div>
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
+                            <img src="{{asset('icons/product-add-icon.svg')}}" width="40%" height="40%" class="" alt="Product-Add-Icon">
+                          </button>
+                        @elseif($product->type == 'custom' && $product->quantity=-1)
+                          <span class="fw-bold">Quantity:</span>
+                            <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">  
+                              <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
+                            </div>
                           <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
                             <img src="{{asset('icons/product-add-icon.svg')}}" width="40%" height="40%" class="" alt="Product-Add-Icon">
                           </button>
@@ -104,7 +112,11 @@
                         <input type="number" id="inputsaleproductDisc" min="{{$sale_product->disc}}" max="{{ $sale_product->sale_price }}" class="form-control bill-item-disc--{{$sale_product->id}} item-disc" name="saleproductDisc_{{$sale_product->id}}" placeholder="1" value="{{$sale_product->disc}}">
                       </span>
                       <span class="list-group-item col-md-2 px-1">
-                        <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1" max="{{ $productData['Product_' . $sale_product->product_id]['qty'] }}" name="saleproductQty_{{$sale_product->id}}" placeholder="1" value="{{ $sale_product->quantity }}">
+                        <input type="number" id="inputsaleproductQty" class="form-control bill-item-qty--{{$sale_product->id}} item-qty" min="1"
+                          @if($productData['Product_' . $sale_product->product_id]['qty'] !== -1)
+                            max="{{ $productData['Product_' . $sale_product->product_id]['qty'] }}"
+                          @endif 
+                        name="saleproductQty_{{$sale_product->id}}" placeholder="1" value="{{ $sale_product->quantity }}">
                       </span>
                       <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
                     </div>
