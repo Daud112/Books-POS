@@ -15,7 +15,11 @@
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-sale') }}">Create New Sale</a>
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('sales') }}">View Sales</a>
     </div>
-    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('users') }}">Users</a>
+    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#userSubmenu" data-bs-toggle="collapse" role="button">Users</a>
+    <div class="collapse ml-3" id="userSubmenu">
+        <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('users') }}">List</a>
+        <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('register-user') }}">Create</a>
+    </div>
     <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#customerSubmenu" data-bs-toggle="collapse" role="button">
         Customer
     </a>

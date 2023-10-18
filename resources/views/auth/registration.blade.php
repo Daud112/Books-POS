@@ -4,7 +4,7 @@
     <div class="d-flex align-items-center justify-content-center vh-100">
         <div class="col-6 col-sm-6 col-md-4 col-lg-4">
             <div class="card">
-                <h3 class="card-header text-center">Register New User</h3>
+                <h3 class="card-header text-center">Create New User</h3>
                 <div class="card-body">
                     <form action="{{ route('register.custom') }}" method="POST">
                         @csrf
