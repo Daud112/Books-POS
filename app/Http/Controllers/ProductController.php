@@ -114,17 +114,29 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'title' => 'required',
-            'isbn' => 'required|min:13|max:13',
-            'buy_price' => 'required',
-            'sale_price' => 'required',
-            'quantity' => 'required',
-            'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
-        ]);
-
         $data = $request->all();
         $product = Product::find($id);
+        if($product->type == 'new'){
+            $request->validate([
+                'title' => 'required',
+                'isbn' => 'required|min:13|max:13',
+                'buy_price' => 'required',
+                'sale_price' => 'required',
+                'quantity' => 'required',
+                'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
+            ]);
+        }else{
+            $request->validate([
+                'title' => 'required',
+                'isbn' => 'required|min:12|max:12', //ISBN is barcode for custom products
+                'cost_price' => 'required',
+                'sale_price' => 'required',
+                'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
+            ]);
+
+            
+        }
+        
         $product_validate = DB::table('products')
                                 ->where([
                                     ['title', '=', $data['title']],
@@ -136,27 +148,36 @@ class ProductController extends Controller
                                 ])
                                 ->first();
         if ($product_validate !== null) {
-            return back()->with('error', 'Product Title & ISBN has already been taken.');
+            return back()->with('error', 'Product Title & ISBN/Barcode has already been taken.');
         }
         
         if (!$product) {
             return back()->with('error', 'Product not found!');
         }
-        
-        if($product->buy_price == $product->sale_price || $product->buy_price > $product->sale_price){
+
+        if($product->type == 'new' && ($product->buy_price == $product->sale_price || $product->buy_price > $product->sale_price)){
             return back()->with('error', 'Sale price should be greater than Buy price!');
+        }
+        
+        if($product->type == 'custom' && ($data['cost_price'] == $data['sale_price'] || $data['cost_price'] > $data['sale_price'])){
+            return back()->with('error', 'Sale price should be greater than Cost price!');
         }
 
         $product->title = $data['title'];
-        $product->author = $data['author'];
         $product->isbn = $data['isbn'];
-        $product->genre = $data['genre'];
-        $product->buy_price = $data['buy_price'];
         $product->sale_price = $data['sale_price'];
         $product->disc = $data['disc'];
-        $product->quantity = $data['quantity'];
-        $product->published_date = $data['published_date'];
-        $product->publisher = $data['publisher'];
+        if($product->type == 'new'){
+            $product->author = $data['author'];
+            $product->genre = $data['genre'];
+            $product->buy_price = $data['buy_price'];
+            $product->quantity = $data['quantity'];
+            $product->published_date = $data['published_date'];
+            $product->publisher = $data['publisher'];
+        }
+        if($product->type == 'custom'){
+            $product->buy_price = $data['cost_price'];
+        }
 
         if ($request->hasFile('cover_image')) {
             if($product->isbn !== $data['isbn']){

@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-md-3 ">
                     <div>Discount on Sale</div>
-                    <div class="text-success fs-4 mt-3">Rs{{ $product->disc }} </div>
+                    <div class="text-success fs-4 mt-3">Rs{{ $product->disc ?? 0}} </div>
                 </div>
                 @if($product->type !== 'custom')
                     <div class="col-md-3 ">
