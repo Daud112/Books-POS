@@ -1,5 +1,21 @@
 #header-nav{
-  background-color: #e3f2fd;
+  background-color: #211d1d;
+  
+}
+
+.logo{
+  font-size: 36px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+#header-nav a{
+  color: #ffffff;
+}
+
+#content{
+  background-color: #ffffffb7;
 }
 
 html,
@@ -10,25 +26,20 @@ body, .container-fluid {
   width: 100%;
 }
 
-header {
-  background-color:#333;
-  color:#fff;
-}
-
 .sidebar {
-  background-color:#EEE;
+  background-color:#1d1a1a;
   display:table-cell;
 }
 
 .sidebar a {
   text-decoration: none;
   font-size: 25px;
-  color: #000000;
+  color: #ffffff;
   display: block;
 }
 
-.sidebar a:hover {
-  color: #000000;
+.sidebar a:hover,#navbarNav a:hover{
+  color: #453e3e;
 }
 
 @media screen and (max-height: 450px) {
@@ -40,11 +51,7 @@ header {
 
   height:100%;
 }
- 
-/* .page-row {
-  display: table-row;
-  height: 1px;
-} */
+
  
 .page-row-expanded { height: 100%; }
 

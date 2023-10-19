@@ -1,17 +1,17 @@
 @extends('dashboard')
 @section('content')
 <main class="signup-form">
-    <div class="row d-flex justify-content-center my-5">
+    <div class="row d-flex justify-content-center mx-md-5 my-5">
         <h1 class="fs-3 text-dark text-center fw-bold my-3">Edit Product</h1>
         @include('layouts.partials.error')
         @include('layouts.partials.success')
         <form class="row g-3" action="{{ route('product.update',[$product->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <label for="coverImage" class="form-label">Cover Image</label>
             <div class="col-md-6">
                 <img id="frame" src="{{ asset('cover_images/' . $product->cover_image_path) }}" class="cover-image" />
             </div>
             <div class="col-md-9">
+                <label for="coverImage" class="form-label">Cover Image</label>
                 <div class="input-group col-md-6 mb-3">
                     @if ($errors->has('cover_image'))
                         <span class="text-danger">{{ $errors->first('cover_image') }}</span>
@@ -109,7 +109,7 @@
                 </div>
             @endif
             <div class="col-12 d-flex justify-content-center ">
-                <button type="submit" class="btn btn-primary" href="{{ route('product.update', [$product->id]) }}">Update</button>
+                <button type="submit" class="btn btn-primary" href="{{ route('product.update', [$product->id]) }}">Update Product</button>
             </div>
         </form>
     </div>

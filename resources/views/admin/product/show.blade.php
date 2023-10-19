@@ -37,7 +37,7 @@
         <div class="alert alert-secondary my-4 text-success fw-bold fs-5" role="alert">
             <span class="">Avaible Stock:</span> 
             @if($product->type == 'custom')
-                <span class="border rounded-5 p-2 bg-success text-white">unlimited</span>
+                <span class="border rounded-5 p-2 bg-success text-white">Fix</span>
             @else
                 {{ $product->quantity }}
             @endif

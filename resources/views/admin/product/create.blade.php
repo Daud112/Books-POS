@@ -1,7 +1,7 @@
 @extends('dashboard')
 @section('content')
 <main class="signup-form">
-    <div class="row d-flex justify-content-center my-5">
+    <div class="row d-flex justify-content-center my-5 mx-md-5">
         <h1 class="fs-3 text-dark text-center fw-bold my-3">Create New Product</h1>
         @include('layouts.partials.error')
         @include('layouts.partials.success')
@@ -91,7 +91,7 @@
                     <span class="text-danger">{{ $errors->first('quantity') }}</span>
                 @endif
             </div>
-            <div class="col-12">
+            <div class="col-12 d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary">Create Product</button>
             </div>
         </form>

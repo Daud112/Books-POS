@@ -132,7 +132,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-center my-4">
-              <button type="submit" class="btn btn-success">Create Sale</button>
+              <button type="submit" class="btn btn-success">Create Bill</button>
             </div>
           </form>
         </div>

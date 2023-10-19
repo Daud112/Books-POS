@@ -35,7 +35,7 @@
                         <td> {{ $product->disc }} </th>
                         <td> 
                             @if($product->quantity == -1)
-                                <span class="border rounded-5 p-2 bg-success text-white">unlimited</span>
+                                <span class="border rounded-5 p-2 bg-success text-white">Fix</span>
                             @else
                                 <span class="border rounded-5 px-3 py-1 bg-success text-white"> {{ $product->quantity }} </span>
                             @endif
