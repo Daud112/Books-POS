@@ -12,7 +12,7 @@
 @endphp
 <main class="main-pos px-4">
     <div class="row d-flex justify-content-center my-3">
-        <div class="text-success text-center fw-bold fs-3 my-2">POS</div>
+        <div class="app-buttons-text text-center fw-bold fs-2 my-2">POS</div>
         <span class="my-3 mx-5" >@include('layouts.partials.error')</span>
         <span class="my-3 mx-5" >@include('layouts.partials.success')</span>
         <div class="col-md-8 my-4">
@@ -28,15 +28,15 @@
                 <img src="{{asset('cover_images/'. $product->cover_image_path)}}" width="100%" class="img-fluid rounded-start border-bottom rounded product-img" alt="...">
                 <div class="row">
                   <div class="card-body">
-                    <div class="col-md-12 card-title fw-bold text-success text-center"> <a href="{{ route('show-product', [$product->id]) }}"> {{ $product->title }} </a></div>
+                    <div class="col-md-12 card-title fw-bold text-center"> <a class="app-buttons-text fs-6" href="{{ route('show-product', [$product->id]) }}"> {{ $product->title }} </a></div>
                     <div class="col-md-12 card-isbn"><span class="fw-bold">ISBN:</span> {{ $product->isbn }}</div>
                     <div class="col-md-12 card-price">
                       <span class="fw-bold">Price:</span>
                       @if($product->disc>0)
                         <span class="fs-6 text-decoration-line-through">Rs {{$product->sale_price }}</span>
-                        <span class="fs-4 text-success text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                        <span class="fs-4 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
                       @else
-                        <span class="fs-4 text-success text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                        <span class="fs-4 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
                       @endif
                     </div>
                     <form class="row" action="{{route('store.sale')}}" method="POST">
@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="col-md-4 my-4 ">
-          <div class="text-success text-center fw-bold fs-5 my-2">Billing</div>
+          <div class="app-buttons-text text-center fw-bold fs-4 my-2">Billing</div>
           <div class="text-success fw-bold fs-6">Customer Details:</div>
           <form action="{{route('completesale.sale',[$draft_sale->id])}}" method="POST">
             @csrf
@@ -103,7 +103,7 @@
                   @foreach($sale_products as $sale_product)
                     <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
                       <span class="list-group-item col-md-4 text-success"> 
-                        <a href="{{ route('show-product', [$sale_product->product_id]) }}"> 
+                        <a class="app-buttons-text fs-6" href="{{ route('show-product', [$sale_product->product_id]) }}"> 
                           {{ $productData['Product_' . $sale_product->product_id]['title'] }}
                         </a>
                       </span>

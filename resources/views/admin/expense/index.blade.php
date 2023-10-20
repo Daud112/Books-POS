@@ -7,6 +7,26 @@
             <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-expense') }}">+ Add Expense</a>
         </button>
     </div>
+    <form class="row g-3" action="{{ route('expenses-filter') }}" method="GET">
+        @csrf
+        <div class="col-md-6">
+            <label for="inputStartDate" class="form-label">From Date</label>
+                <input type="date" id="inputsStartDate" class="form-control" placeholder="Start Date" name="start_date" value="{{ $startDate ?? "" }}">
+            @if ($errors->has('start_date'))
+                <span class="text-danger">{{ $errors->first('start_date') }}</span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <label for="inputEndDate" class="form-label">End Date</label>
+            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $endDate ?? "" }}">
+            @if ($errors->has('end_date'))
+                <span class="text-danger">{{ $errors->first('end_date') }}</span>
+            @endif
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </form>
     <div class="card my-5 text-center fw-bold fs-6">
         <div class="card-header ">
             All Expenses
@@ -14,11 +34,11 @@
         <div class="card-body row ">
             <div class="col-md-6">
                 <div> No of Expense</div>
-                <div class="text-success fs-4 mt-3"> {{count($expenses)}}</div>
+                <div class="app-buttons-text fs-4 mt-3"> {{count($expenses)}}</div>
             </div>
             <div class="col-md-6">
                 <div>Total Expense Price</div>
-                <div class="text-success fs-4 mt-3">Rs {{ $total_expense_amount }} </div>
+                <div class="app-buttons-text fs-4 mt-3">Rs {{ $total_expense_amount }} </div>
             </div>
         </div>
     </div>

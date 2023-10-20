@@ -4,7 +4,7 @@
 <div class="row justify-content-center my-4">
     <div class="col-md-12">
         @foreach ($sale as $sale)
-            <div class="fs-4 text-dark text-left fw-bold my-4">Sales Info:</div>
+            <div class="fs-4 text-success text-left fw-bold my-4">Sales Info:</div>
             <table class="table table-striped table-hover">
                 <tbody>
                     <tr>
@@ -17,7 +17,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="fs-4 text-dark text-left fw-bold my-4">Customer Info:</div>
+            <div class="fs-4 text-success text-left fw-bold my-4">Customer Info:</div>
             <table class="table table-striped table-hover">
                 <tbody>
                     <tr>
@@ -28,12 +28,12 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="fs-4 text-dark text-left fw-bold my-4">Seller Info:</div>
+            <div class="fs-4 text-success text-left fw-bold my-4">Seller Info:</div>
             <table class="table table-striped table-hover">
                 <tbody>
                     <tr>
                         <td> <span class="fw-bold">Name</span> </td>
-                        <td class="text-success fw-bold"> <a href="{{ route('show-user', [$sale->user_id]) }}">{{ $sale->user->name }}</a> </td>
+                        <td class="text-success fw-bold"> <a class="app-buttons-text" href="{{ route('show-user', [$sale->user_id]) }}">{{ $sale->user->name }}</a> </td>
                         <td> <span class="fw-bold">Phone</span> </td>
                         <td> {{ $sale->user->phone }} </td>
                     </tr>
@@ -45,7 +45,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="fs-4 text-dark text-left fw-bold my-4">Sold Products:</div>
+            <div class="fs-4 text-success text-left fw-bold my-4">Sold Products:</div>
             <table class="table table-hover text-center">
                 <thead>
                     <tr>
@@ -61,8 +61,8 @@
                 <tbody>
                     @foreach ($sale->productSales as $product)
                         <tr>
-                            <td class="text-success fw-bold text-start">
-                                <a href="{{ route('show-product', [$product->product_id]) }}">{{ $product->title }}</a>
+                            <td class="fw-bold text-start">
+                                <a class="app-buttons-text" href="{{ route('show-product', [$product->product_id]) }}">{{ $product->title }}</a>
                             </td>
                             <td> {{ $product->buy_price }} </td>    
                             <td> {{ $product->sale_price }} </td>    
@@ -74,12 +74,12 @@
                     @endforeach
                     <tr>
                         <td></td>
-                        <td class="text-success fw-bold"> {{ $saletotal['total_buy_price'] }} </td>
-                        <td class="text-success fw-bold"> {{ $saletotal['total_price'] }} </td>
-                        <td class="text-success fw-bold"> {{ $saletotal['total_disc'] }} </td>
-                        <td class="text-success fw-bold"> {{ $saletotal['total_qty'] }} </td>
-                        <td class="text-success fw-bold"> {{ $saletotal['total_sale_price'] }} </td>
-                        <td class="text-success fw-bold">{{ $saletotal['total_profilt'] }} </td>
+                        <td class="fw-bold"> <span class="text-success">{{$saletotal['total_buy_price'] }}</span> </td>
+                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_price'] }}</span>  </td>
+                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_disc'] }}</span>  </td>
+                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_qty'] }}</span>  </td>
+                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_sale_price'] }}</span>  </td>
+                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_profilt'] }}</span>  </td>
                     </tr>
                 </tbody>
             </table>

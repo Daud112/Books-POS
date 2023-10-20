@@ -64,6 +64,7 @@ Route::get('/sales/print/{id}', [SaleController::class, 'printSales'])->name('sa
 
 
 Route::get('expenses', [ExpenseController::class, 'index'])->name('expenses');
+Route::get('/expenses/filter', [ExpenseController::class, 'filter'])->name('expenses-filter');
 Route::get('/expense', [ExpenseController::class, 'create'])->name('create-expense');
 Route::post('/expense', [ExpenseController::class, 'store'])->name('expense.store');
 Route::get('expense/{id}', [ExpenseController::class, 'show'])->name('show-expense');

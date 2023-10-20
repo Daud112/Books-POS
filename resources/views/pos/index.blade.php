@@ -41,7 +41,7 @@
     <div class="table-responsive p-5">
         @if(count($sales)<1)
             <tr>
-               <div class="fs-3 text-success text-center fw-bold "> No Product Found</div>
+               <div class="fs-3 app-buttons-text text-center fw-bold "> No Product Found</div>
             </tr>
 
         @else
@@ -52,19 +52,19 @@
                 <div class="card-body row ">
                     <div class="col-md-3 ">
                         <div> No of Sales</div>
-                        <div class="text-success fs-4 mt-3"> {{count($sales)}}</div>
+                        <div class="app-buttons-text fs-4 mt-3"> {{count($sales)}}</div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Sale Price</div>
-                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['total_sale_price'] }} </div>
+                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['total_sale_price'] }} </div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Discount's</div>
-                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['total_disc'] }} </div>
+                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['total_disc'] }} </div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Profit</div>
-                        <div class="text-success fs-4 mt-3">Rs {{ $saletotal['profit'] }} </div>
+                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['profit'] }} </div>
                     </div>
                 </div>
             </div>

@@ -10,6 +10,18 @@
   letter-spacing: 2px;
 }
 
+.app-buttons{
+  background-color: #5f73a8;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.app-buttons-text{
+  color: #5f73a8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
 #header-nav a{
   color: #ffffff;
 }

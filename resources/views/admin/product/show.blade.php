@@ -34,10 +34,10 @@
                 @endif
             </tbody>
         </table>
-        <div class="alert alert-secondary my-4 text-success fw-bold fs-5" role="alert">
+        <div class="alert alert-secondary my-4 app-buttons-text fw-bold fs-5" role="alert">
             <span class="">Avaible Stock:</span> 
             @if($product->type == 'custom')
-                <span class="border rounded-5 p-2 bg-success text-white">Fix</span>
+            <span class="border rounded-5 px-3 py-2  app-buttons text-white">Fix</span>
             @else
                 {{ $product->quantity }}
             @endif
@@ -49,20 +49,20 @@
             <div class="card-body row ">
                 <div class="col-md-3 ">
                     <div>Your Buy Price</div>
-                    <div class="text-success fs-4 mt-3">Rs{{ $product->buy_price }} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->buy_price }} </div>
                 </div>
                 <div class="col-md-3 ">
                     <div>Your Sale Price</div>
-                    <div class="text-success fs-4 mt-3">Rs{{ $product->sale_price }} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->sale_price }} </div>
                 </div>
                 <div class="col-md-3 ">
                     <div>Discount on Sale</div>
-                    <div class="text-success fs-4 mt-3">Rs{{ $product->disc ?? 0}} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->disc ?? 0}} </div>
                 </div>
                 @if($product->type !== 'custom')
                     <div class="col-md-3 ">
                         <div>Your Profit</div>
-                        <div class="text-success fs-4 mt-3">Rs{{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
+                        <div class="app-buttons-text fs-4 mt-3">Rs{{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
                     </div>
                 @endif
             </div>
@@ -75,8 +75,8 @@
             <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
         </button>
     </div>
-    <div class="col-1">
+    {{-- <div class="col-1">
         <button type="button" class="btn btn-danger w-100">Delete</button>
-    </div>
+    </div> --}}
 </div>
 @endsection

@@ -27,6 +27,25 @@ class ExpenseController extends Controller
         return view('admin.expense.index', compact('expenses','total_expense_amount'));
     }
 
+    public function filter(Request $request)
+    {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+
+        $expenses = Expense::whereBetween('date', [$startDate, $endDate])->get();
+
+        $total_expense_amount = 0;
+        foreach($expenses as $expense){
+            $total_expense_amount += $expense->amount; 
+        }
+
+        return view('admin.expense.index', compact('expenses','total_expense_amount'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */

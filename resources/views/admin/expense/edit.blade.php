@@ -36,7 +36,7 @@
                 </select>
             </div>
             
-            <div class="form-group col-md-6" id="online_payment_number_field" style="display: none;">
+            <div class="form-group col-md-6" id="online_payment_number_field" @if ($expense->payment_method == 'cash') style="display: none;"@endif>
                 <label for="payment_no">Online Payment ID/Number:</label>
                 <input type="text" name="payment_no" value="{{$expense->payment_no}}" class="form-control">
             </div>
