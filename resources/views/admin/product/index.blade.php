@@ -10,6 +10,21 @@
     </div>
     @include('layouts.partials.error')
     @include('layouts.partials.success')
+    <form class="row g-3" action="{{ route('products-filter') }}" method="GET">
+        @csrf
+        <div class="col-md-6">
+            <label class="form-label">Title</label>
+                <input type="text" id="filter_title" class="form-control" placeholder="Title" name="filter_title" aria-label="Title" value="{{ $filterTitle ?? "" }}">
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Barcode/ISBN</label>
+            <input type="number" id="filter_isbn" class="form-control" name="filter_isbn" placeholder="Barcode or ISBN" value="{{$filterIsbn ?? ""}}" aria-label="ISBN">
+        </div>
+        
+        <div class="col-12 d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </form>
     <div class="table-responsive p-5">
         <table class="table table-hover my-5">
             <thead>

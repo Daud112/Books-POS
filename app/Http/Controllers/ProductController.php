@@ -23,6 +23,27 @@ class ProductController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function filter(Request $request)
+    {
+        if(!Auth::check()){
+            return view('auth.login');
+        }
+
+        $filterTitle = $request->input('filter_title');
+        $filterIsbn = $request->input('filter_isbn');
+        if($filterTitle && $filterIsbn){
+            $products = Product::where('title', 'like', "%$filterTitle")
+                            ->orWhere('isbn',  'like', "%$filterIsbn")->get();
+        }else{
+            $products = Product::all();
+        }
+        
+        return view('admin.product.index', compact('products','filterIsbn', 'filterTitle'));
+    }
+
+    /**
      * Show the form for creating a new resource.
      */
     public function create()

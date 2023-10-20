@@ -47,6 +47,7 @@ Route::post('/add/product', [ProductController::class, 'store'])->name('product.
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('show-product');
 Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('edit-product');
 Route::post('/product/{id}', [ProductController::class, 'update'])->name('product.update');
+Route::get('/products/filter', [ProductController::class, 'filter'])->name('products-filter');
 
 Route::get('sales', [SaleController::class, 'index'])->name('sales');
 Route::get('/sales/filter', [SaleController::class, 'filter'])->name('sales-filter');
