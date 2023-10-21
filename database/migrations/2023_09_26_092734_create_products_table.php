@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('disc')->nullable();
             $table->integer('quantity');
             $table->string('type');
+            $table->string('status');
             $table->date('published_date')->nullable();
             $table->string('publisher')->nullable();
             $table->string('cover_image_path')->nullable();

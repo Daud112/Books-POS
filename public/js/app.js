@@ -178,20 +178,28 @@ $(document).ready(function () {
                             <div class="col-md-12 card-price">
                                 <span class="fw-bold">Price:</span>
                                 ${product.disc > 0 ? `
-                                    <span class="fs-6 text-decoration-line-through">Rs ${product.sale_price}</span>
-                                    <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
-                                ` : `
-                                    <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
-                                `}
+                                <span class="fs-6 text-decoration-line-through">Rs ${product.sale_price}</span>
+                                <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
+                            ` : `
+                                <span class="fs-4 text-success text-decoration-none">Rs ${product.sale_price - product.disc}</span>
+                            `}
                             </div>
                             <form class="row" action="${base_url}/sale/create" method="POST">
-                              <input type="hidden" name="_token" value="${_token}" autocomplete="off">
+                                <input type="hidden" name="_token" value="${_token}" autocomplete="off">
                                 <input type="hidden" class="form-control" name="productId" value="${product.id}">
-                                ${product.quantity > 0 ? `
+                                ${product.type === 'new' && product.quantity > 0 ? `
                                     <span class="fw-bold">Quantity:</span>
                                     <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
                                         <input type="number" id="inputQuantity" min="1" max="${product.quantity}" class="form-control w-50" name="productQty" placeholder="1" value="1">
                                         <span class="d-flex"> <span>/</span> ${product.quantity}</span>
+                                    </div>
+                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
+                                        <img src="${base_url}/icons/product-add-icon.svg" width="40%" height="40%" class="" alt="Product-Add-Icon">
+                                    </button>
+                                ` : product.type === 'custom' && product.quantity === -1 ? `
+                                    <span class="fw-bold">Quantity:</span>
+                                    <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
+                                        <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1">
                                     </div>
                                     <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
                                         <img src="${base_url}/icons/product-add-icon.svg" width="40%" height="40%" class="" alt="Product-Add-Icon">
@@ -202,6 +210,7 @@ $(document).ready(function () {
                                     </div>
                                 `}
                             </form>
+                            
                         </div>
                     </div>
                 </div>

@@ -113,7 +113,7 @@ class SaleController extends Controller
         $user_id = Auth::user()->id;
         $currentDateTime = Carbon::now();
         $DateTime = $currentDateTime->toDateTimeString();
-        $products = Product::all();
+        $products = Product::where('status','active')->get();
 
         $draft_sale = DB::table('sales')
                         ->where([

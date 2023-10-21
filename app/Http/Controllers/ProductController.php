@@ -67,6 +67,7 @@ class ProductController extends Controller
             'sale_price' => 'required',
             'quantity' => 'required',
             'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
+            'status' => 'required'
         ]);
         $data = $request->all();
 
@@ -85,6 +86,7 @@ class ProductController extends Controller
             'quantity' => $data['quantity'],
             'published_date' => $data['published_date'],
             'publisher' => $data['publisher'],
+            'status' => $data['status'],
             'type' => 'new'
         ];
 
@@ -144,6 +146,7 @@ class ProductController extends Controller
                 'buy_price' => 'required',
                 'sale_price' => 'required',
                 'quantity' => 'required',
+                'status' => 'required',
                 'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
             ]);
         }else{
@@ -152,6 +155,7 @@ class ProductController extends Controller
                 'isbn' => 'required|min:12|max:12', //ISBN is barcode for custom products
                 'cost_price' => 'required',
                 'sale_price' => 'required',
+                'status' => 'required',
                 'cover_image' => 'image|mimes:jpeg,png,jpg,gif',
             ]);
 
@@ -199,6 +203,8 @@ class ProductController extends Controller
         if($product->type == 'custom'){
             $product->buy_price = $data['cost_price'];
         }
+        
+        $product->status = $data['status'];
 
         if ($request->hasFile('cover_image')) {
             if($product->isbn !== $data['isbn']){
@@ -256,6 +262,7 @@ class ProductController extends Controller
             'sale_price' => $data['sale_price'],
             'quantity' => -1,
             'disc' => $data['disc'],
+            'status' => $data['status'],
             'type' => 'custom',
         ];
 
@@ -286,8 +293,11 @@ class ProductController extends Controller
     {
         $searchTerm = $request->input('term');
         // Query the database to find matching products
-        $products = Product::where('title', 'like', "%$searchTerm%")
-                        ->orWhere('isbn', 'like', "%$searchTerm%")
+        $products = Product::where('status', 'active')
+                        ->where(function ($query) use ($searchTerm) {
+                            $query->where('title', 'like', "%$searchTerm%")
+                                ->orWhere('isbn', 'like', "%$searchTerm%");
+                        })
                         ->get();
         
         return response()->json($products);

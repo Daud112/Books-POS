@@ -108,6 +108,13 @@
                     @endif
                 </div>
             @endif
+            <div class="form-group col-md-6">
+                <label for="status">Status:</label>
+                <select id="status" name="status" class="form-control">
+                    <option @if ($product->status == 'active') selected @endif value="active">Active</option>
+                    <option @if ($product->status == 'deactive') selected @endif value="deactive">Deactive</option>
+                </select>
+            </div>
             <div class="col-12 d-flex justify-content-center ">
                 <button type="submit" class="btn btn-primary" href="{{ route('product.update', [$product->id]) }}">Update Product</button>
             </div>

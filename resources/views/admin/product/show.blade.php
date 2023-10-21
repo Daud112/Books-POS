@@ -32,6 +32,10 @@
                     <td> {{ $product->published_date }} </td>
                 </tr>
                 @endif
+                <tr>
+                    <td> <span class="fw-bold">Status</span> </td>
+                    <td> {{ $product->status }} </td>
+                </tr>
             </tbody>
         </table>
         <div class="alert alert-secondary my-4 app-buttons-text fw-bold fs-5" role="alert">
@@ -49,20 +53,20 @@
             <div class="card-body row ">
                 <div class="col-md-3 ">
                     <div>Your Buy Price</div>
-                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->buy_price }} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->buy_price }} </div>
                 </div>
                 <div class="col-md-3 ">
                     <div>Your Sale Price</div>
-                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->sale_price }} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->sale_price }} </div>
                 </div>
                 <div class="col-md-3 ">
                     <div>Discount on Sale</div>
-                    <div class="app-buttons-text fs-4 mt-3">Rs{{ $product->disc ?? 0}} </div>
+                    <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->disc ?? 0}} </div>
                 </div>
                 @if($product->type !== 'custom')
                     <div class="col-md-3 ">
                         <div>Your Profit</div>
-                        <div class="app-buttons-text fs-4 mt-3">Rs{{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
+                        <div class="app-buttons-text fs-4 mt-3">Rs {{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
                     </div>
                 @endif
             </div>

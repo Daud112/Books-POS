@@ -91,6 +91,13 @@
                     <span class="text-danger">{{ $errors->first('quantity') }}</span>
                 @endif
             </div>
+            <div class="form-group col-md-6">
+                <label for="status">Status:</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="active">Active</option>
+                    <option value="deactive">Deactive</option>
+                </select>
+            </div>
             <div class="col-12 d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary">Create Product</button>
             </div>
