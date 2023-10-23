@@ -56,31 +56,43 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Total</th>
                         <th scope="col">Profit</th>
+                        <th scope="col">Select Return's</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($sale->productSales as $product)
+                    <form action="{{ route('return.saledproduct',[$sale->id]) }}" method="POST">
+                        @foreach ($sale->productSales as $product)
+                            @csrf
+                            <tr>
+                                <td class="fw-bold text-start">
+                                    <a class="app-buttons-text" href="{{ route('show-product', [$product->product_id]) }}">{{ $product->title }}</a>
+                                </td>
+                                <td> {{ $product->buy_price }} </td>    
+                                <td> {{ $product->sale_price }} </td>    
+                                <td> {{ $product->disc }} </td>
+                                <td> {{ $product->quantity }} </td>
+                                <td> {{($product->sale_price-$product->disc)*$product->quantity}}</td>
+                                <td> {{(($product->sale_price-$product->disc)-$product->buy_price)*$product->quantity}}</td>
+                                <td> 
+                                    <input type="number" name="return_stock_{{$product->id}}" min="1" max="{{ $product->quantity }}" value="1">
+                                    <input type="checkbox" name="product_id[]" value="{{ $product->id }}">
+                                </td>
+                            </tr>
+                        @endforeach
+                            
                         <tr>
-                            <td class="fw-bold text-start">
-                                <a class="app-buttons-text" href="{{ route('show-product', [$product->product_id]) }}">{{ $product->title }}</a>
+                            <td></td>
+                            <td class="fw-bold"> <span class="text-success">{{$saletotal['total_buy_price'] }}</span> </td>
+                            <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_price'] }}</span>  </td>
+                            <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_disc'] }}</span>  </td>
+                            <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_qty'] }}</span>  </td>
+                            <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_sale_price'] }}</span>  </td>
+                            <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_profilt'] }}</span>  </td>
+                            <td>
+                                <button type="submit" class="btn btn-primary">Return</button>
                             </td>
-                            <td> {{ $product->buy_price }} </td>    
-                            <td> {{ $product->sale_price }} </td>    
-                            <td> {{ $product->disc }} </td>
-                            <td> {{ $product->quantity }} </td>
-                            <td> {{($product->sale_price-$product->disc)*$product->quantity}}</td>
-                            <td> {{(($product->sale_price-$product->disc)-$product->buy_price)*$product->quantity}}</td>
                         </tr>
-                    @endforeach
-                    <tr>
-                        <td></td>
-                        <td class="fw-bold"> <span class="text-success">{{$saletotal['total_buy_price'] }}</span> </td>
-                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_price'] }}</span>  </td>
-                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_disc'] }}</span>  </td>
-                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_qty'] }}</span>  </td>
-                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_sale_price'] }}</span>  </td>
-                        <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_profilt'] }}</span>  </td>
-                    </tr>
+                    </form>
                 </tbody>
             </table>
         @endforeach

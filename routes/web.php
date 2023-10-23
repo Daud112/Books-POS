@@ -71,3 +71,5 @@ Route::post('/expense', [ExpenseController::class, 'store'])->name('expense.stor
 Route::get('expense/{id}', [ExpenseController::class, 'show'])->name('show-expense');
 Route::get('/expense/{id}/edit', [ExpenseController::class, 'edit'])->name('edit-expense');
 Route::post('/expense/{id}', [ExpenseController::class, 'update'])->name('expense.update');
+
+Route::post('return/sale-product/{id}', [SaleController::class, 'returnSale'])->name('return.saledproduct');

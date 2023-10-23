@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('extra_profits', function (Blueprint $table) {
-            $table->foreign('product_sales_id')->references('id')->on('product_sales')->onDelete('cascade');
+            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
+
         });
     }
 
@@ -22,8 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('extra_profits', function (Blueprint $table) {
-            $table->dropForeign('extra_profits_product_sales_id_foreign');
-            $table->dropColumn('product_sales_id');
+            $table->dropForeign('extra_profits_sale_id_foreign');
+            $table->dropColumn('sale_id');
         });
     }
 };

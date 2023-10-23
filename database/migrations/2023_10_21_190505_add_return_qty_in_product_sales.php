@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('extra_profits', function (Blueprint $table) {
-            $table->foreign('product_sales_id')->references('id')->on('product_sales')->onDelete('cascade');
+        Schema::table('product_sales', function (Blueprint $table) {
+            $table->decimal('returned_qty')->nullable();
         });
     }
 
@@ -21,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('extra_profits', function (Blueprint $table) {
-            $table->dropForeign('extra_profits_product_sales_id_foreign');
-            $table->dropColumn('product_sales_id');
+        Schema::table('product_sales', function (Blueprint $table) {
+            $table->dropColumn('returned_qty');
         });
     }
 };

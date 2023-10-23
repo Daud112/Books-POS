@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\ExtraProfit;
 use App\Models\Sale;
 use App\Models\User;
 use App\Models\Product;
@@ -331,6 +332,68 @@ class SaleController extends Controller
             }
         }
     }
+
+    public function returnSale(Request $request, string $id)
+    {
+        $data = $request->all();
+        $products_id = $data['product_id'];
+        $sale = Sale::where('id', $id)
+        ->with('productSales')
+        ->get();
+        foreach($products_id as $product_id){
+            $returned_qty = $data['return_stock_' . $product_id];
+            $product = Product::where('id',$product_id)->first();
+            $sold_product = ProductSale::where('product_id',$product_id)
+                                ->where('sale_id',$id)->first();
+
+            $new_buyprice = $product->buy_price;
+            $new_saleprice = $product->sale_price-$product->disc;
+            $sold_buyprice = $sold_product->buy_price;
+            $sold_saleprice = $sold_product->sale_price-$sold_product->disc;
+
+            if($new_buyprice > $sold_buyprice && $new_saleprice >= $sold_saleprice){
+                $profit = ($new_buyprice-$sold_buyprice)* $returned_qty ;
+                $profit_data = [
+                    'profit'  => $profit,
+                    'product_sales_id' => $product_id,
+                    'sale_id' => $id
+                ];
+               
+                ExtraProfit::create($profit_data);
+                $product->quantity +=  $returned_qty;
+                $product->save();
+                $sold_product->quantity -= $returned_qty;
+                $sold_product->returned_qty += $returned_qty;
+                $sold_product->save();
+            }elseif(($new_buyprice > $sold_buyprice && $new_saleprice < $sold_saleprice) || ($new_buyprice < $sold_buyprice)){
+                
+                $buy_diff = $new_buyprice-$sold_buyprice;
+                $sale_diff = $new_saleprice-$sold_saleprice; 
+                $profit = ($buy_diff+$sale_diff)* $returned_qty ;
+                $profit_data = [
+                    'profit'  => $profit,
+                    'product_sales_id' => $product_id,
+                    'sale_id' => $id
+                ];
+                ExtraProfit::create($profit_data);
+                $product->quantity +=  $returned_qty;
+                $product->save();
+                $sold_product->quantity -= $returned_qty;
+                $sold_product->returned_qty += $returned_qty;
+                $sold_product->save();
+            }else{
+                //Update stock
+                $product->quantity +=  $sold_product->quantity;
+                $product->save();
+                $sold_product->quantity -= $returned_qty;
+                $sold_product->returned_qty += $returned_qty;
+                $sold_product->save();
+            }
+        }
+        return redirect("sales")->withSuccess('Successfully return the product');
+
+    }
+
 
     public function createCustomer($data)
     {   
