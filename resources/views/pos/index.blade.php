@@ -8,18 +8,12 @@
     <form class="row g-3" action="{{ route('sales-filter') }}" method="GET">
         @csrf
         <div class="col-md-6">
-            <label for="inputStartDate" class="form-label">From Date</label>
-                <input type="date" id="inputsStartDate" class="form-control" placeholder="Start Date" name="start_date" value="{{ $startDate ?? now()->toDateString() }}">
-            @if ($errors->has('start_date'))
-                <span class="text-danger">{{ $errors->first('start_date') }}</span>
-            @endif
+            <label for="inputcustomername" class="form-label">Customer Name</label>
+            <input type="text" id="inputName" class="form-control" placeholder="Name" name="customer-name">
         </div>
         <div class="col-md-6">
-            <label for="inputEndDate" class="form-label">End Date</label>
-            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $endDate ?? now()->toDateString() }}">
-            @if ($errors->has('end_date'))
-                <span class="text-danger">{{ $errors->first('end_date') }}</span>
-            @endif
+            <label for="inputPhone" class="form-label">Custom Phone</label>
+            <input type="number" id="inputPhone" class="form-control" name="customer-phone" placeholder="03**********">
         </div>
         <div class="col-md-6">
             <label for="inputEndDate" class="form-label">User</label>
@@ -32,6 +26,20 @@
               </select>
             @if ($errors->has('user'))
                 <span class="text-danger">{{ $errors->first('user') }}</span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <label for="inputStartDate" class="form-label">From Date</label>
+                <input type="date" id="inputsStartDate" class="form-control" placeholder="Start Date" name="start_date" value="{{ $startDate ?? "" }}">
+            @if ($errors->has('start_date'))
+                <span class="text-danger">{{ $errors->first('start_date') }}</span>
+            @endif
+        </div>
+        <div class="col-md-6">
+            <label for="inputEndDate" class="form-label">End Date</label>
+            <input type="date" id="inputsEndDate" class="form-control" placeholder="End Date" name="end_date" value="{{ $endDate ?? "" }}">
+            @if ($errors->has('end_date'))
+                <span class="text-danger">{{ $errors->first('end_date') }}</span>
             @endif
         </div>
         <div class="col-12 d-flex justify-content-center">

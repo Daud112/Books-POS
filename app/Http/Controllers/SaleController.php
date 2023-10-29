@@ -63,25 +63,28 @@ class SaleController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $user_id = $request->input('selectedUserId');
+        $customer_name = $request->input('customer-name');
+        $customer_phone = $request->input('customer-phone');
 
-        if($user_id == "all"){
-            $sales = Sale::where('status', 'completed')
-                        ->whereBetween('sale_datetime', [$startDate, $endDate])
-                        ->with('productSales', 'customer', 'user')
-                        ->get();
-        }elseif($user_id == 0){
-            $sales = Sale::where('status', 'completed')
-                        ->where('user_id', Auth::user()->id)
-                        ->whereBetween('sale_datetime', [$startDate, $endDate])
-                        ->with('productSales', 'customer', 'user')
-                        ->get();
-        }else{
-            $sales = Sale::where('status', 'completed')
-                        ->where('user_id', $user_id)
-                        ->whereBetween('sale_datetime', [$startDate, $endDate])
-                        ->with('productSales', 'customer', 'user')
-                        ->get();
+        // dd($customer_phone);
+        $raw_sales = Sale::where('status', 'completed')
+                ->with('productSales', 'customer', 'user');
+
+        if ($customer_name) {
+            $raw_sales->whereHas('customer', function ($customerQuery) use ($customer_name) {
+                $customerQuery->where('name', $customer_name);
+            });
+        } elseif ($customer_phone) {
+            $raw_sales->whereHas('customer', function ($customerQuery) use ($customer_phone) {
+                $customerQuery->where('phone', $customer_phone);
+            });
+        } elseif ($user_id !== "all" && $user_id > 0) {
+            $raw_sales->where('user_id', $user_id);
+        } elseif($startDate || $endDate) {
+            $raw_sales->whereBetween('sale_datetime', [$startDate, $endDate]);
         }
+
+        $sales = $raw_sales->get();
         $users = User::all();
         $saletotal = [
             "total_sale_price" => 0,
