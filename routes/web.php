@@ -73,3 +73,4 @@ Route::get('/expense/{id}/edit', [ExpenseController::class, 'edit'])->name('edit
 Route::post('/expense/{id}', [ExpenseController::class, 'update'])->name('expense.update');
 
 Route::post('return/sale-product/{id}', [SaleController::class, 'returnSale'])->name('return.saledproduct');
+Route::post('cancel/sale-product/{id}', [SaleController::class, 'cancelSale'])->name('cancel.saledproduct');

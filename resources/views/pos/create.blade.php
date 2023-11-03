@@ -90,11 +90,12 @@
             <div class="card">
               <div class="card-header">
                 <div class="row">
-                  <span class="col-md-4"> Product </span>
+                  <span class="col-md-3"> Product </span>
                   <span class="col-md-2"> Price </span>
                   <span class="col-md-2"> Disc </span>
                   <span class="col-md-2"> Qty </span>
                   <span class="col-md-2"> Total </span>
+                  <span class="col-md-1"></span>
                 </div>
               </div>
               <div class="list-group list-group-flush">
@@ -102,7 +103,7 @@
                 <input type="hidden" class="form-control" name="saleId" value="{{$draft_sale->id}}">
                   @foreach($sale_products as $sale_product)
                     <div class="row bill-items-list bill-items-list-{{$sale_product->id}}">
-                      <span class="list-group-item col-md-4 text-success"> 
+                      <span class="list-group-item col-md-3 text-success"> 
                         <a class="app-buttons-text fs-6" href="{{ route('show-product', [$sale_product->product_id]) }}"> 
                           {{ $productData['Product_' . $sale_product->product_id]['title'] }}
                         </a>
@@ -119,11 +120,14 @@
                         name="saleproductQty_{{$sale_product->id}}" placeholder="1" value="{{ $sale_product->quantity }}">
                       </span>
                       <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
+                      <span class="list-group-item col-md-1 px-1">
+                        <img src="{{asset('icons/product-remove-icon.svg')}}" width="70%" height="70%" class="remove-sales-product remove-sales-product--{{$sale_product->id}}" alt="Product-Remove-Icon">
+                      </span>
                     </div>
                   @endforeach
                 @endif
                   <div class="row bill-items-list">
-                    <span class="list-group-item col-md-4"></span>
+                    <span class="list-group-item col-md-3"></span>
                     <span class="list-group-item col-md-2 bill-item-sale-price"> {{ $saletotal['total_product_price'] }} </span>
                     <span class="list-group-item col-md-2 bill-item-disc" > {{ $saletotal['total_disc'] }} </span>
                     <span class="list-group-item col-md-2 bill-item-qty"> {{ $saletotal['total_qty'] }} </span>

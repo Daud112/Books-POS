@@ -223,6 +223,29 @@ $(document).ready(function () {
     });
   });
 
+  $('.remove-sales-product').on('click', function (event) {
+    let event_class_list = this.className.split(" ")[1];
+    let event_id = event_class_list.split('--')[1]; 
+    var _token = $('input[name="_token"]').val();
+    console.log(_token);
+    $.ajax({
+      url: '/cancel/sale-product/'+event_id,
+      method: 'POST',
+      headers: { 'X-CSRF-TOKEN': _token },
+      data: { sale_product_id: event_id },
+      success: function (response) {
+        // Redirect to the 'create-sale' page
+        alert(response.message);
+        window.location.href = '/sale/create';
+      },
+      error: function (xhr) {
+          // Redirect to a page with error message
+          alert(response.message);
+          window.location.href = '/sale/create';
+        }
+    });
+  });
+
   document.getElementById('payment_method').addEventListener('change', function() {
     var onlinePaymentNumberField = document.getElementById('online_payment_number_field');
     if (this.value === 'online') {

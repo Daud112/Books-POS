@@ -456,8 +456,13 @@ class SaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sale $sale)
+    public function cancelSale(Request $request, string $id)
     {
-        //
+        if (ProductSale::destroy($id)) {
+            return response()->json(['message' => 'Successfully removed the product from the bill']);
+        } else {
+            return response()->json(['message' => 'Failed to remove the product from the bill'], 400);
+        }
+        
     }
 }
