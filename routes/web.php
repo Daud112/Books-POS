@@ -31,6 +31,8 @@ Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout')
 Route::get('users', [UserController::class, 'index'])->name('users');
 Route::get('/user/{id}', [UserController::class, 'show'])->name('show-user');
 Route::post('/user/{id}', [UserController::class, 'update'])->name('update-user');
+Route::get('/role/permissions', [UserController::class, 'roleAndPermissions'])->name('role-permissions');
+Route::post('/role/permissions', [UserController::class, 'updateRoles'])->name('update_roles');
 
 
 Route::get('customers', [CustomerController::class, 'index'])->name('customers');

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -44,7 +45,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::find($id);
-        return view('admin.user.show', compact('user'));
+        $role = $user->getRoleNames();
+        $permissions = $user->getPermissionsViaRoles();
+        return view('admin.user.show', compact('user','role','permissions'));
     }
 
     /**
@@ -92,8 +95,84 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function roleAndPermissions()
     {
-        //
+        $roleNames = [
+            'Admin',
+            'Manager',
+            'Shop Worker'
+        ];
+        $all_permissions = [
+            'view user',
+            'create user',
+            'edit user',
+            'view customer',
+            'create customer',
+            'edit customer',
+            'view product',
+            'create product',
+            'edit product',
+            'view sale',
+            'create sale',
+            'edit sale',
+            'return sale',
+            'view expense',
+            'create expense',
+            'edit expense',
+        ];
+        
+        $roles_with_permissions = [];
+        
+        foreach ($roleNames as $roleName) {
+            $role = Role::where('name', $roleName)->first();
+        
+            if ($role) {
+                $permissions = $role->permissions;
+                $roles_with_permissions[$roleName] = [
+                    'permissions' => $permissions,
+                ];
+            }
+        }
+
+        return view('admin.user.roles', compact('roleNames','roles_with_permissions','all_permissions'));
+    }
+
+    public function updateRoles(Request $request)
+    {
+        $permissions = $request->input('permissions');
+        $all_permissions = [
+            'view user',
+            'create user',
+            'edit user',
+            'view customer',
+            'create customer',
+            'edit customer',
+            'view product',
+            'create product',
+            'edit product',
+            'view sale',
+            'create sale',
+            'edit sale',
+            'return sale',
+            'view expense',
+            'create expense',
+            'edit expense',
+        ];
+        foreach ($permissions as $role => $rolePermissions) {
+            $roleModel = Role::where('name', $role)->first();
+
+            if ($roleModel) {
+                foreach ($all_permissions as $permission) {
+                    if(array_key_exists($permission, $rolePermissions)){
+                        $roleModel->givePermissionTo($permission);
+                    }else{
+                        $roleModel->revokePermissionTo($permission);
+                    }
+                }
+            }else{
+                return redirect("/role/permissions")->withSuccess('Role failed to found.');
+            }
+        }
+        return redirect("/role/permissions")->withSuccess('Successfully update roles permission.');
     }
 }
