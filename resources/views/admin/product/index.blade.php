@@ -59,9 +59,11 @@
                             <button type="button" class="btn btn-dark d-flex my-1">
                                 <a href="{{ route('show-product', [$product->id]) }}">View</a>
                             </button>
-                            <button type="button" class="btn btn-success">
-                                <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
-                            </button>
+                            @if($auth_user->hasPermissionTo('edit product'))
+                                <button type="button" class="btn btn-success">
+                                    <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
+                                </button>
+                            @endif
                         </th>
                     </tr>
                 @endforeach

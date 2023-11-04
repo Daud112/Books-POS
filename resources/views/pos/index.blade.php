@@ -98,9 +98,11 @@
                         <td> {{ $sale->customer->name }} </th>
                         <td> {{ $sale->user->name }} </th>
                         <td>
-                            <button type="button" class="btn btn-dark d-flex my-1">
-                                <a href="{{ route('show-sale',[$sale->id]) }}">View</a>
-                            </button>
+                            @if($auth_user->hasPermissionTo('view sale'))
+                                <button type="button" class="btn btn-dark d-flex my-1">
+                                    <a href="{{ route('show-sale',[$sale->id]) }}">View</a>
+                                </button>
+                            @endif
                             <button type="button" class="btn btn-danger">
                                 <a href="{{ route('sales.print', [$sale->id]) }}" target="_blank">Print</a>
                             </button>

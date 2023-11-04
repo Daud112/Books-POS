@@ -86,6 +86,7 @@ class UserController extends Controller
 
         // Save the updated user.
         if($user->save()){
+            $user->assignRole($user->role);
             $users = User::all();
             return view('admin.user.index', compact('users'));
         }

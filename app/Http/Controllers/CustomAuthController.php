@@ -51,9 +51,11 @@ class CustomAuthController extends Controller
         ]);
            
         $data = $request->all();
-        $check = $this->create($data);
-         
-        return redirect("dashboard")->withSuccess('You have signed-in');
+        $user = $this->create($data);
+        if($user){
+            $user->assignRole($data['role']??'Shop Worker');
+            return redirect("dashboard")->withSuccess('You have signed-in');
+        }
     }
 
     public function create(array $data)

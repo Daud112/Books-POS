@@ -75,9 +75,11 @@
 </div>
 <div class="row d-flex align-items-center justify-content-center">
     <div class="col-1">
-        <button type="button" class="btn btn-success w-100">
-            <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
-        </button>
+        @if($auth_user->hasPermissionTo('edit product'))
+            <button type="button" class="btn btn-success w-100">
+                <a href="{{ route('edit-product', [$product->id]) }}">Edit</a>
+            </button>
+        @endif
     </div>
     {{-- <div class="col-1">
         <button type="button" class="btn btn-danger w-100">Delete</button>

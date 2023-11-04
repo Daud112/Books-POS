@@ -56,7 +56,9 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Total</th>
                         <th scope="col">Profit</th>
-                        <th scope="col">Select Return's</th>
+                        @if($auth_user->hasPermissionTo('return sale'))
+                            <th scope="col">Select Return's</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
@@ -73,10 +75,12 @@
                                 <td> {{ $product->quantity }} </td>
                                 <td> {{($product->sale_price-$product->disc)*$product->quantity}}</td>
                                 <td> {{(($product->sale_price-$product->disc)-$product->buy_price)*$product->quantity}}</td>
-                                <td> 
-                                    <input type="number" name="return_stock_{{$product->id}}" min="1" max="{{ $product->quantity }}" value="1">
-                                    <input type="checkbox" name="product_id[]" value="{{ $product->id }}">
-                                </td>
+                                @if($auth_user->hasPermissionTo('return sale'))
+                                    <td> 
+                                        <input type="number" name="return_stock_{{$product->id}}" min="1" max="{{ $product->quantity }}" value="1">
+                                        <input type="checkbox" name="product_id[]" value="{{ $product->id }}">
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                             
@@ -88,9 +92,11 @@
                             <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_qty'] }}</span>  </td>
                             <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_sale_price'] }}</span>  </td>
                             <td class="fw-bold"> <span class="text-success">{{ $saletotal['total_profilt'] }}</span>  </td>
-                            <td>
-                                <button type="submit" class="btn btn-primary">Return</button>
-                            </td>
+                            @if($auth_user->hasPermissionTo('return sale'))
+                                <td>
+                                    <button type="submit" class="btn btn-primary">Return</button>
+                                </td>
+                            @endif
                         </tr>
                     </form>
                 </tbody>
@@ -99,11 +105,13 @@
     </div>
 </div>
 <div class="row d-flex align-items-center justify-content-center">
-    <div class="col-1">
-        <button type="button" class="btn btn-success w-100">
-            <a href="{{ route('edit-sale', [$sale->id]) }}">Edit</a>
-        </button>
-    </div>
+    @if($auth_user->hasPermissionTo('edit sale'))
+        <div class="col-1">
+            <button type="button" class="btn btn-success w-100">
+                <a href="{{ route('edit-sale', [$sale->id]) }}">Edit</a>
+            </button>
+        </div>
+    @endif
     <div class="col-1">
         <button type="button" class="btn btn-danger w-100">
             <a href="{{ route('sales.print', [$sale->id]) }}" target="_blank">Print</a>

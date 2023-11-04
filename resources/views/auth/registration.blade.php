@@ -32,8 +32,9 @@
                         <div class="form-group mb-3">
                             <select id="role" class="form-control" name="role">
                               <option selected>Choose...</option>
-                              <option value="shopworker">Shop Worker</option>
-                              <option value="admin">Admin</option>
+                              <option value="Shop Worker">Shop Worker</option>
+                              <option value="Manager">Manager</option>
+                              <option value="Admin">Admin</option>
                             </select>
                             @if ($errors->has('role'))
                             <span class="text-danger">{{ $errors->first('role') }}</span>
@@ -52,7 +53,7 @@
                             </div>
                         </div>
                         <div class="d-grid mx-auto">
-                            <button type="submit" class="btn btn-dark btn-block">Sign up</button>
+                            <button type="submit" class="btn btn-dark btn-block">Create User</button>
                         </div>
                     </form>
                 </div>

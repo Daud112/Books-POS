@@ -2,11 +2,13 @@
 @section('content')
 
 <div class="row d-flex justify-content-center">
-    <div class="px-5 pt-5 d-flex justify-content-end">
-        <button type="button" class="btn btn-primary">
-            <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-expense') }}">+ Add Expense</a>
-        </button>
-    </div>
+    @if($auth_user->hasPermissionTo('create expense'))
+        <div class="px-5 pt-5 d-flex justify-content-end">
+            <button type="button" class="btn btn-primary">
+                <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('create-expense') }}">+ Add Expense</a>
+            </button>
+        </div>
+    @endif
     <form class="row g-3" action="{{ route('expenses-filter') }}" method="GET">
         @csrf
         <div class="col-md-6">
@@ -50,7 +52,9 @@
                 <th scope="col">Date</th>
                 <th scope="col">Amount</th>
                 <th scope="col">Payment Method</th>
-                <th scope="col">Actions</th>
+                @if($auth_user->hasPermissionTo('view expense')||$auth_user->hasPermissionTo('edit expense'))
+                    <th scope="col">Actions</th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -60,14 +64,20 @@
                         <td> {{ $expense->date }} </th>
                         <td> {{ $expense->amount }} </th>
                         <td> {{ $expense->payment_method }} </th>
-                        <td>
-                            <button type="button" class="btn btn-dark">
-                                <a href="{{ route('show-expense', [$expense->id]) }}">Show</a>
-                            </button>
-                            <button type="button" class="btn btn-dark">
-                                <a href="{{ route('edit-expense', [$expense->id]) }}">Edit</a>
-                            </button>
-                        </th>
+                        @if($auth_user->hasPermissionTo('view expense')||$auth_user->hasPermissionTo('edit expense'))
+                            <td>
+                                @if($auth_user->hasPermissionTo('view expense'))
+                                    <button type="button" class="btn btn-dark">
+                                        <a href="{{ route('show-expense', [$expense->id]) }}">Show</a>
+                                    </button>
+                                @endif
+                                @if($auth_user->hasPermissionTo('edit expense'))
+                                    <button type="button" class="btn btn-dark">
+                                        <a href="{{ route('edit-expense', [$expense->id]) }}">Edit</a>
+                                    </button>
+                                @endif
+                            </th>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>

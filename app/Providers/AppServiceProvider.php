@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +21,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
+        view()->composer('*', function ($view) {
+            $user = Auth()->user();
+            if($user){
+                $role = $user->getRoleNames();
+                $permissions = $user->getPermissionsViaRoles();
+                $view->with('permissions', $permissions);
+                $view->with('role', $role[0]);
+                $view->with('auth_user', $user);
+            }
+        });
     }
 }

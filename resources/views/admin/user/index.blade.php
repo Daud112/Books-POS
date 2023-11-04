@@ -10,7 +10,9 @@
                 <th scope="col">Email</th>
                 <th scope="col">Phone</th>
                 <th scope="col">Role</th>
-                <th scope="col">Actions</th>
+                @if($auth_user->hasPermissionTo('edit user'))
+                    <th scope="col">Actions</th>
+                @endif
             </tr>
             </thead>
             <tbody>
@@ -21,9 +23,11 @@
                         <td> {{ $user->phone }} </th>
                         <td> {{ $user->role }} </th>    
                         <td>
-                            <button type="button" class="btn btn-dark">
-                                <a href="{{ route('show-user', [$user->id]) }}">Edit</a>
-                            </button>
+                            @if($auth_user->hasPermissionTo('edit user'))
+                                <button type="button" class="btn btn-dark">
+                                    <a href="{{ route('show-user', [$user->id]) }}">Edit</a>
+                                </button>
+                            @endif
                         </th>
                     </tr>
                 @endforeach
