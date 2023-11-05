@@ -13,7 +13,8 @@ use App\Models\ProductSale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Mike42\Escpos\PrintConnectors\NetworkPrintConnector;
+use Mike42\Escpos\Printer;
 class SaleController extends Controller
 {
     /**
@@ -448,9 +449,11 @@ class SaleController extends Controller
             $saletotal['total_profilt'] += $total_profilt_raw;
         }
 
-        view()->share('pos.print',compact('sale','saletotal'));
-        $pdf = PDF::loadView('pos.print', compact('sale','saletotal'));
-        return $pdf->stream('view_sales.pdf');
+        return view('pos.print', compact('sale','saletotal'));
+
+        // view()->share('pos.print',compact('sale','saletotal'));
+        // $pdf = PDF::loadView('pos.print', compact('sale','saletotal'));
+        // return $pdf->stream('view_sales.pdf');
     }
 
     /**
