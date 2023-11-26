@@ -23,41 +23,52 @@
           </div>
           {{-- CSRF token for JS to search product --}} @csrf
           <div id="products-listing" class="row">
+            <table class="table table-hover text-center">
+              <thead>
+                <tr>
+                  <th scope="col" class="text-start">ISBN/Barcode</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Qty/Action</th>
+                </tr>
+              </thead>
+              <tbody>
             @foreach ($products as $product)
-              <div class="card sale-product p-0 mb-3 mx-1 border border-3 border-success rounded">
-                <img src="{{asset('cover_images/'. $product->cover_image_path)}}" width="100%" class="img-fluid rounded-start border-bottom rounded product-img" alt="...">
-                <div class="row">
-                  <div class="card-body">
-                    <div class="col-md-12 card-title fw-bold text-center"> <a class="app-buttons-text fs-6" href="{{ route('show-product', [$product->id]) }}"> {{ $product->title }} </a></div>
-                    <div class="col-md-12 card-isbn"><span class="fw-bold">ISBN:</span> {{ $product->isbn }}</div>
-                    <div class="col-md-12 card-price">
-                      <span class="fw-bold">Price:</span>
-                      @if($product->disc>0)
-                        <span class="fs-6 text-decoration-line-through">Rs {{$product->sale_price }}</span>
-                        <span class="fs-4 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
-                      @else
-                        <span class="fs-4 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
-                      @endif
-                    </div>
+                <tr>
+                  <td>
+                    {{ $product->isbn }}
+                  </td>
+                  <td>
+                    <a class="app-buttons-text" href="{{ route('show-product', [$product->id]) }}">
+                      {{ $product->title }} 
+                    </a>
+                  </td>
+                  <td>
+                    @if($product->disc>0)
+                      <span class="fs-6 text-decoration-line-through">Rs {{$product->sale_price }}</span>
+                      <span class="fs-5 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                    @else
+                      <span class="fs-5 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                    @endif
+                  </td>
+                  <td>
                     <form class="row" action="{{route('store.sale')}}" method="POST">
                       @csrf
                       <input type="hidden" class="form-control" name="productId" value="{{$product->id}}"> 
-                        @if($product->type == 'new' && $product->quantity>0)       
-                          <span class="fw-bold">Quantity:</span>
-                          <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">  
+                        @if($product->type == 'new' && $product->quantity>0)
+                          <div class="col-8 col-sm-8 col-md-8 d-flex card-qty justify-content-end">  
                             <input type="number" id="inputQuantity" min="1" max="{{ $product->quantity }}" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
-                            <span class="d-flex"> <span>/</span> {{ $product->quantity }}</span>
+                            <span class="d-flex my-auto"> <span>/</span> {{ $product->quantity }}</span>
                           </div>
-                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
-                            <img src="{{asset('icons/product-add-icon.svg')}}" width="40%" height="40%" class="" alt="Product-Add-Icon">
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3 my-auto">
+                            <img src="{{asset('icons/product-add-icon.svg')}}" width="10%" height="10%" class="" alt="Product-Add-Icon">
                           </button>
                         @elseif($product->type == 'custom' && $product->quantity=-1)
-                          <span class="fw-bold">Quantity:</span>
-                            <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">  
+                            <div class="col-8 col-sm-8 col-md-8 d-flex card-qty my-auto">
                               <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
                             </div>
-                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
-                            <img src="{{asset('icons/product-add-icon.svg')}}" width="40%" height="40%" class="" alt="Product-Add-Icon">
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3">
+                            <img src="{{asset('icons/product-add-icon.svg')}}" width="10%" height="10%" class="" alt="Product-Add-Icon">
                           </button>
                         @else
                           <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
@@ -65,10 +76,11 @@
                           </div>
                         @endif
                     </form>
-                  </div>
-                </div>
-              </div>
-            @endforeach
+                  </td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="col-md-4 my-4 ">
