@@ -18,57 +18,63 @@
         <div class="col-md-8 my-4">
           <div class="row">
             <div class="input-group mb-5">
-              <input type="text" id="search_product" name="search_product" class="form-control" placeholder="Search Product by Title or ISBN">
+              <input type="text" id="search_product" name="search_product" class="form-control" placeholder="Search Product by Code or Title">
             </div>
           </div>
+          <a type="button" class="btn btn-primary" href="{{ route('dashboard') }}">Back</a>
           {{-- CSRF token for JS to search product --}} @csrf
           <div id="products-listing" class="row">
-            <table class="table table-hover text-center">
+            <table class="table table-hover">
               <thead>
                 <tr>
-                  <th scope="col" class="text-start">ISBN/Barcode</th>
+                  <th scope="col" class="text-start">Code</th>
                   <th scope="col">Title</th>
                   <th scope="col">Price</th>
-                  <th scope="col">Qty/Action</th>
+                  <th scope="col" class="d-flex justify-content-center">Qty/Action</th>
                 </tr>
               </thead>
               <tbody>
             @foreach ($products as $product)
                 <tr>
                   <td>
-                    {{ $product->isbn }}
+                    <span class="app-buttons-text" >
+                      <a  href="{{ route('show-product', [$product->id]) }}">
+                        {{ $product->isbn }}
+                      </a>
+                    </span>
                   </td>
                   <td>
-                    <a class="app-buttons-text" href="{{ route('show-product', [$product->id]) }}">
+                    <a  href="{{ route('show-product', [$product->id]) }}">
                       {{ $product->title }} 
                     </a>
                   </td>
                   <td>
                     @if($product->disc>0)
                       <span class="fs-6 text-decoration-line-through">Rs {{$product->sale_price }}</span>
-                      <span class="fs-5 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                      <span class="fs-5 text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
                     @else
-                      <span class="fs-5 app-buttons-text text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
+                      <span class="fs-5 text-decoration-none">Rs {{ $product->sale_price-$product->disc }}</span>
                     @endif
                   </td>
                   <td>
-                    <form class="row" action="{{route('store.sale')}}" method="POST">
+                    <form class="row" method="POST">
                       @csrf
                       <input type="hidden" class="form-control" name="productId" value="{{$product->id}}"> 
                         @if($product->type == 'new' && $product->quantity>0)
-                          <div class="col-8 col-sm-8 col-md-8 d-flex card-qty justify-content-end">  
+                          <div class="col-8 col-sm-8 col-md-8 d-flex card-qty justify-content-center">  
                             <input type="number" id="inputQuantity" min="1" max="{{ $product->quantity }}" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
                             <span class="d-flex my-auto"> <span>/</span> {{ $product->quantity }}</span>
                           </div>
                           <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3 my-auto">
-                            <img src="{{asset('icons/product-add-icon.svg')}}" width="10%" height="10%" class="" alt="Product-Add-Icon">
+                            <img src="{{asset('icons/product-add-icon.svg')}}" width="13%" height="13%" class="" alt="Product-Add-Icon" title="Add to Bill">
                           </button>
                         @elseif($product->type == 'custom' && $product->quantity=-1)
-                            <div class="col-8 col-sm-8 col-md-8 d-flex card-qty my-auto">
+                            <div class="col-8 col-sm-8 col-md-8 d-flex card-qty justify-content-center">
                               <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
+                              <span class="d-flex my-auto"> <span>/</span> ∞</span>
                             </div>
-                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3">
-                            <img src="{{asset('icons/product-add-icon.svg')}}" width="10%" height="10%" class="" alt="Product-Add-Icon">
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3" >
+                            <img src="{{asset('icons/product-add-icon.svg')}}" width="13%" height="13%" class="" alt="Product-Add-Icon" title="Add to Bill">
                           </button>
                         @else
                           <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
@@ -133,7 +139,7 @@
                       </span>
                       <span class="list-group-item col-md-2 bill-item-total--{{$sale_product->id}} item-total"> {{ ($sale_product->sale_price-$sale_product->disc)*$sale_product->quantity }} </span>
                       <span class="list-group-item col-md-1 px-1">
-                        <img src="{{asset('icons/product-remove-icon.svg')}}" width="70%" height="70%" class="remove-sales-product remove-sales-product--{{$sale_product->id}}" alt="Product-Remove-Icon">
+                        <img src="{{asset('icons/product-remove-icon.svg')}}" width="70%" height="70%" class="remove-sales-product remove-sales-product--{{$sale_product->id}}" alt="Product-Remove-Icon" title="Remove from Bill">
                       </span>
                     </div>
                   @endforeach
@@ -151,6 +157,11 @@
               <button type="submit" class="btn btn-success">Create Bill</button>
             </div>
           </form>
+          @if(session('saleId'))
+            <button type="button" class="btn btn-danger w-100">
+              <a href="{{ route('sales.print', [session('saleId')]) }}" target="_blank">Print</a>
+            </button>
+          @endif
         </div>
     </div>
 </main>

@@ -1,5 +1,5 @@
 <div class="sidebar-menus mx-0 mx-sm-0 mx-md-4 mx-lg-4 my-5">    
-    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#"   >Home</a>
+    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('home') }}"   >Home</a>
     @if($auth_user->hasPermissionTo('view product') || $auth_user->hasPermissionTo('create product') || $auth_user->hasPermissionTo('edit product'))
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#productsSubmenu" data-bs-toggle="collapse" role="button">
             Products
@@ -14,7 +14,7 @@
             @endif
         </div>
     @endif
-    @if($auth_user->hasPermissionTo('view expense') || $auth_user->hasPermissionTo('create expense') || $auth_user->hasPermissionTo('edit expense'))
+    {{-- @if($auth_user->hasPermissionTo('view expense') || $auth_user->hasPermissionTo('create expense') || $auth_user->hasPermissionTo('edit expense'))
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#expenseSubmenu" data-bs-toggle="collapse" role="button">
             Expense
         </a>
@@ -26,7 +26,7 @@
                 <a class="m-2 m-sm-2 m-md-3 m-xl-3 ps-3" href="{{ route('create-expense') }}">- Create</a>
             @endif
         </div>
-    @endif
+    @endif --}}
     @if($auth_user->hasPermissionTo('view sale') || $auth_user->hasPermissionTo('create sale') || $auth_user->hasPermissionTo('edit sale'))
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#posSubmenu" data-bs-toggle="collapse" role="button">
             POS

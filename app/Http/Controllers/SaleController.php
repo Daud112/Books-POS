@@ -325,14 +325,15 @@ class SaleController extends Controller
             ];
             $customer = $this->createCustomer($customer_data);
             if($this->updateSale($sale_id, $customer->id, $DateTime)){
-                return redirect("sale/create")->withSuccess('Successfully sale created');
+                return redirect("sale/create")->with('saleId', $sale_id)->withSuccess('Successfully sale created');
             }
         }
  
         if($customer_id !== null){
             if($this->updateSale($sale_id, $customer_id, $DateTime)){
-                
-                return redirect("sale/create")->withSuccess('Successfully sale created');
+                return redirect("sale/create")
+                    ->with('saleId', $sale_id)
+                    ->withSuccess('Successfully sale created');
             }
         }
     }

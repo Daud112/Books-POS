@@ -29,7 +29,7 @@
                 @endif
             </div>
             <div class="col-md-6">
-                <label for="inputIsbn" class="form-label">ISBN</label>
+                <label for="inputIsbn" class="form-label">Code/ISBN</label>
                 <input type="number" id="inputIsbn" class="form-control" name="isbn" placeholder="International Standard Book Number" aria-label="ISBN">
                 @if ($errors->has('isbn'))
                     <span class="text-danger">{{ $errors->first('isbn') }}</span>

@@ -227,7 +227,7 @@ $(document).ready(function () {
     let event_class_list = this.className.split(" ")[1];
     let event_id = event_class_list.split('--')[1]; 
     var _token = $('input[name="_token"]').val();
-    console.log(_token);
+
     $.ajax({
       url: '/cancel/sale-product/'+event_id,
       method: 'POST',

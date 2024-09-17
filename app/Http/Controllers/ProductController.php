@@ -62,7 +62,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:products',
-            'isbn' => 'required|unique:products|min:13|max:13',
+            'isbn' => 'required|unique:products|min:3',
             'buy_price' => 'required',
             'sale_price' => 'required',
             'quantity' => 'required',
@@ -142,7 +142,7 @@ class ProductController extends Controller
         if($product->type == 'new'){
             $request->validate([
                 'title' => 'required',
-                'isbn' => 'required|min:13|max:13',
+                'isbn' => 'required|min:3',
                 'buy_price' => 'required',
                 'sale_price' => 'required',
                 'quantity' => 'required',
@@ -152,7 +152,7 @@ class ProductController extends Controller
         }else{
             $request->validate([
                 'title' => 'required',
-                'isbn' => 'required|min:12|max:12', //ISBN is barcode for custom products
+                'isbn' => 'required|min:3', //ISBN is barcode for custom products
                 'cost_price' => 'required',
                 'sale_price' => 'required',
                 'status' => 'required',
@@ -173,7 +173,7 @@ class ProductController extends Controller
                                 ])
                                 ->first();
         if ($product_validate !== null) {
-            return back()->with('error', 'Product Title & ISBN/Barcode has already been taken.');
+            return back()->with('error', 'Product Title & Code has already been taken.');
         }
         
         if (!$product) {
@@ -244,7 +244,7 @@ class ProductController extends Controller
     {
         $request->validate([
             'title' => 'required|unique:products',
-            'isbn' => 'required|unique:products|min:12|max:12', //ISBN is barcode for custom products
+            'isbn' => 'required|unique:products|min:3', //ISBN is barcode for custom products
             'cost_price' => 'required',
             'sale_price' => 'required',
             'cover_image' => 'image|mimes:jpeg,png,jpg,gif',

@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ms-auto">
                 @guest
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('login') }}">Login</a>
@@ -14,9 +14,6 @@
                 @else
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('show-user', [Auth::user()->id]) }}">{{ Auth::user()->name }}</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('show-user', [Auth::user()->id]) }}">{{ $role }}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('signout') }}">Logout</a>

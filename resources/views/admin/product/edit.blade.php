@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-6">
                 @if($product->type == 'new')
-                    <label for="inputIsbn" class="form-label">ISBN</label>
+                    <label for="inputIsbn" class="form-label">Code/ISBN</label>
                 @else
                     <label for="inputIsbn" class="form-label">Barcode</label>
                 @endif

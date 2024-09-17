@@ -11,7 +11,7 @@
         <table class="table table-striped table-hover">
             <tbody>
                 <tr>
-                    <td> <span class="fw-bold">ISBN</span> </td>
+                    <td> <span class="fw-bold">Code/ISBN</span> </td>
                     <td> {{ $product->isbn }} </td>
                 </tr>
                 @if($product->type == 'new')
@@ -51,20 +51,20 @@
               Price & Profit
             </div>
             <div class="card-body row ">
-                <div class="col-md-3 ">
+                <div class="col-md-4 ">
                     <div>Your Buy Price</div>
                     <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->buy_price }} </div>
                 </div>
-                <div class="col-md-3 ">
+                <div class="col-md-4 ">
                     <div>Your Sale Price</div>
                     <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->sale_price }} </div>
                 </div>
-                <div class="col-md-3 ">
+                {{-- <div class="col-md-3 ">
                     <div>Discount on Sale</div>
                     <div class="app-buttons-text fs-4 mt-3">Rs {{ $product->disc ?? 0}} </div>
-                </div>
+                </div> --}}
                 @if($product->type !== 'custom')
-                    <div class="col-md-3 ">
+                    <div class="col-md-4 ">
                         <div>Your Profit</div>
                         <div class="app-buttons-text fs-4 mt-3">Rs {{ ($product->sale_price-$product->buy_price-$product->disc)*$product->quantity }} </div>
                     </div>
