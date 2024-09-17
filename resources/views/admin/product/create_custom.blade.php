@@ -29,8 +29,8 @@
                 @endif
             </div>
             <div class="col-md-6">
-                <label for="inputbarcode" class="form-label">Barcode</label>
-                <input type="number" id="inputbarcode" class="form-control" name="isbn" placeholder="Barcode" aria-label="barcode">
+                <label for="inputbarcode" class="form-label">Code</label>
+                <input type="number" id="inputbarcode" class="form-control" name="isbn" placeholder="Code" aria-label="barcode">
                 @if ($errors->has('isbn'))
                     <span class="text-danger">{{ $errors->first('isbn') }}</span>
                 @endif

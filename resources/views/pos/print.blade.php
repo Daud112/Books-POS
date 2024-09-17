@@ -78,12 +78,14 @@
                     {{-- <p><span class="fw-bold">Customer Name:</span> {{ $sale->customer->name }}</p>
                     <p><span class="fw-bold">Customer Phone:</span> {{ $sale->customer->phone }}</p> --}}
                 </div>
+                @if($sale->customer)
                 <div class="col-6 text-start">
                     {{-- <p><span class="fw-bold">Invoice #</span> {{$sale->id}}</p>
                     <p><span class="fw-bold">Invoice Date:</span> {{ $sale->sale_datetime }}</p> --}}
                     <p><span class="fw-bold">Customer Name:</span> {{ $sale->customer->name }}</p>
                     <p><span class="fw-bold">Customer Phone:</span> {{ $sale->customer->phone }}</p>
                 </div>
+                @endif
             </div>
 
             <div class="row border border-dark">

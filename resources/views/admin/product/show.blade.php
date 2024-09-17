@@ -14,23 +14,29 @@
                     <td> <span class="fw-bold">Code/ISBN</span> </td>
                     <td> {{ $product->isbn }} </td>
                 </tr>
-                @if($product->type == 'new')
-                <tr>
-                    <td> <span class="fw-bold">Author</span> </td>
-                    <td> {{ $product->author }} </td>
-                </tr>
-                <tr>
-                    <td> <span class="fw-bold">Genre</span> </td>
-                    <td> {{ $product->genre }} </td>
-                </tr>
-                <tr>
-                    <td> <span class="fw-bold">Publisher</span> </td>
-                    <td> {{ $product->publisher }} </td>
-                </tr>
-                <tr>
-                    <td> <span class="fw-bold">Published Date</span> </td>
-                    <td> {{ $product->published_date }} </td>
-                </tr>
+                @if($product->author)
+                    <tr>
+                        <td> <span class="fw-bold">Author</span> </td>
+                        <td> {{ $product->author }} </td>
+                    </tr>
+                    @if($product->genre)
+                        <tr>
+                            <td> <span class="fw-bold">Genre</span> </td>
+                            <td> {{ $product->genre }} </td>
+                        </tr>
+                    @endif
+                    @if($product->publisher)
+                        <tr>
+                            <td> <span class="fw-bold">Publisher</span> </td>
+                            <td> {{ $product->publisher }} </td>
+                        </tr>
+                    @endif
+                    @if($product->published_date)
+                        <tr>
+                            <td> <span class="fw-bold">Published Date</span> </td>
+                            <td> {{ $product->published_date }} </td>
+                        </tr>
+                    @endif
                 @endif
                 <tr>
                     <td> <span class="fw-bold">Status</span> </td>

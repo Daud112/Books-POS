@@ -292,10 +292,10 @@ class SaleController extends Controller
             $customer_id = $data['selectedCustomerId'];
         }
         
-        if (!$customer_id && (!$data['customer_name'] || !$data['customer_phone'])) {
-            // Handle the case where the user with the given ID is not found.
-            return back()->with('error', 'Please select a customer or give its info!');
-        }
+        // if (!$customer_id && (!$data['customer_name'] || !$data['customer_phone'])) {
+        //     // Handle the case where the user with the given ID is not found.
+        //     return back()->with('error', 'Please select a customer or give its info!');
+        // }
         
         $sale_products = ProductSale::where('sale_id', '=', "$sale_id")->get();
         
@@ -319,13 +319,19 @@ class SaleController extends Controller
         }
         
         if(!$customer_id){
-            $customer_data = [
-                "name" => $data['customer_name'],
-                "phone" => $data['customer_phone'],
-            ];
-            $customer = $this->createCustomer($customer_data);
-            if($this->updateSale($sale_id, $customer->id, $DateTime)){
-                return redirect("sale/create")->with('saleId', $sale_id)->withSuccess('Successfully sale created');
+            if(!empty($data['customer_name']) && !empty($data['customer_phone'])){
+                $customer_data = [
+                    "name" => $data['customer_name'],
+                    "phone" => $data['customer_phone'],
+                ];
+                $customer = $this->createCustomer($customer_data);
+                if($this->updateSale($sale_id, $customer->id, $DateTime)){
+                    return redirect("sale/create")->with('saleId', $sale_id)->withSuccess('Successfully sale created');
+                }
+            }else{
+                if($this->updateSale($sale_id, null, $DateTime)){
+                    return redirect("sale/create")->with('saleId', $sale_id)->withSuccess('Successfully sale created');
+                }
             }
         }
  
@@ -415,7 +421,9 @@ class SaleController extends Controller
         $sale = Sale::find($id);  
         $sale->status  = "Completed";
         $sale->sale_datetime = $date;
-        $sale->customer_id = $customer_id;
+        if($customer_id !== null){
+            $sale->customer_id = $customer_id;
+        }
         return $sale->save();
     }
 

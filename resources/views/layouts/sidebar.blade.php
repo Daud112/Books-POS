@@ -1,5 +1,5 @@
 <div class="sidebar-menus mx-0 mx-sm-0 mx-md-4 mx-lg-4 my-5">    
-    <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('home') }}"   >Home</a>
+    {{-- <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="{{ route('home') }}"   >Home</a> --}}
     @if($auth_user->hasPermissionTo('view product') || $auth_user->hasPermissionTo('create product') || $auth_user->hasPermissionTo('edit product'))
         <a class="m-2 m-sm-2 m-md-3 m-xl-3" href="#productsSubmenu" data-bs-toggle="collapse" role="button">
             Products
