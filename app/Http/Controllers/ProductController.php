@@ -18,7 +18,7 @@ class ProductController extends Controller
             return view('auth.login');
         }
 
-        $products = Product::all();
+        $products = Product::latest('created_at')->get();
         return view('admin.product.index', compact('products'));
     }
 
@@ -37,7 +37,7 @@ class ProductController extends Controller
             $products = Product::where('title', 'like', "%$filterTitle")
                             ->orWhere('isbn',  'like', "%$filterIsbn")->get();
         }else{
-            $products = Product::all();
+            $products = Product::latest('created_at')->get();
         }
         
         return view('admin.product.index', compact('products','filterIsbn', 'filterTitle'));
@@ -109,7 +109,7 @@ class ProductController extends Controller
         
         Product::create($product_data);
 
-        $products = Product::all();
+        $products = Product::latest('created_at')->get();
         return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');
     }
     
@@ -285,7 +285,7 @@ class ProductController extends Controller
         
         Product::create($product_data);
 
-        $products = Product::all();
+        $products = Product::latest('created_at')->get();
         return view('admin.product.index', compact('products'))->withSuccess('Product is created successfully');
     }
 

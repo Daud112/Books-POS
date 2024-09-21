@@ -21,7 +21,7 @@
               <input type="text" id="search_product" name="search_product" class="form-control" placeholder="Search Product by Code or Title">
             </div>
           </div>
-          <a type="button" class="btn btn-primary" href="{{ route('dashboard') }}">Back</a>
+          <a type="button" class="btn btn-primary position-fixed bottom-0 start-0 m-1 rounded-0" href="{{ route('dashboard') }}">Back</a>
           {{-- CSRF token for JS to search product --}} @csrf
           <div id="products-listing" class="row">
             <table class="table table-hover">
@@ -65,7 +65,7 @@
                             <input type="number" id="inputQuantity" min="1" max="{{ $product->quantity }}" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
                             <span class="d-flex my-auto"> <span>/</span> {{ $product->quantity }}</span>
                           </div>
-                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3 my-auto">
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3 transparent-btn my-auto">
                             <img src="{{asset('icons/product-add-icon.svg')}}" width="13%" height="13%" class="" alt="Product-Add-Icon" title="Add to Bill">
                           </button>
                         @elseif($product->type == 'custom' && $product->quantity=-1)
@@ -73,7 +73,7 @@
                               <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1"> 
                               <span class="d-flex my-auto"> <span>/</span> ∞</span>
                             </div>
-                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3" >
+                          <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-start pe-3 transparent-btn" >
                             <img src="{{asset('icons/product-add-icon.svg')}}" width="13%" height="13%" class="" alt="Product-Add-Icon" title="Add to Bill">
                           </button>
                         @else

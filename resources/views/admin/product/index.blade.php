@@ -17,8 +17,8 @@
                 <input type="text" id="filter_title" class="form-control" placeholder="Title" name="filter_title" aria-label="Title" value="{{ $filterTitle ?? "" }}">
         </div>
         <div class="col-md-6">
-            <label class="form-label">Barcode/ISBN</label>
-            <input type="number" id="filter_isbn" class="form-control" name="filter_isbn" placeholder="Barcode or ISBN" value="{{$filterIsbn ?? ""}}" aria-label="ISBN">
+            <label class="form-label">Code</label>
+            <input type="number" id="filter_isbn" class="form-control" name="filter_isbn" placeholder="Barcode or Code" value="{{$filterIsbn ?? ""}}" aria-label="ISBN">
         </div>
         
         <div class="col-12 d-flex justify-content-center">
@@ -31,10 +31,10 @@
                 <tr>
                     <th scope="col">Image</th>
                     <th scope="col">Title</th>
-                    <th scope="col">ISBN/Barcode</th>
+                    <th scope="col">Code</th>
                     <th scope="col">Sale Price</th>
                     <th scope="col">Disc</th>
-                    <th scope="col">Quantity</th>
+                    <th scope="col">Avaible Qty</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>

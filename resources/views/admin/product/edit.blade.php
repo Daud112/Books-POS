@@ -92,7 +92,7 @@
                     <span class="text-danger">{{ $errors->first('sale_price') }}</span>
                 @endif
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 d-none">
                 <label for="inputSaleDisc" class="form-label">Sale Discount</label>
                 <input type="number" id="inputSaleDisc" class="form-control" placeholder="Product Sale Disc" name="disc" aria-label="Sale Disc" value="{{$product->disc}}">
                 @if ($errors->has('disc'))

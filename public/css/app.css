@@ -21,6 +21,14 @@
   font-size: 14px;
   font-weight: 600;
 }
+.app-buttons-border{
+  border-color: #5f73a8 !important; 
+}
+
+.transparent-btn {
+  background-color: transparent;
+  border: none; /* Optional: Remove border */
+}
 
 #header-nav a{
   color: #ffffff;

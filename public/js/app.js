@@ -167,7 +167,7 @@ $(document).ready(function () {
 
           $.each(response, function (index, product) {
             var productHtml = `
-                <div class="card sale-product p-0 mb-3 mx-1 border border-3 border-success rounded">
+                <div class="card sale-product p-0 mb-3 mx-1 border border-3 border-success app-buttons-border rounded-0">
                     <img src="${base_url}/cover_images/${product.cover_image_path}" width="100%" class="img-fluid rounded-start border-bottom rounded product-img" alt="...">
                     <div class="row">
                         <div class="card-body">
@@ -188,20 +188,20 @@ $(document).ready(function () {
                                 <input type="hidden" name="_token" value="${_token}" autocomplete="off">
                                 <input type="hidden" class="form-control" name="productId" value="${product.id}">
                                 ${product.type === 'new' && product.quantity > 0 ? `
-                                    <span class="fw-bold">Quantity:</span>
+                                    <span class="fw-bold">Stock:</span>
                                     <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
                                         <input type="number" id="inputQuantity" min="1" max="${product.quantity}" class="form-control w-50" name="productQty" placeholder="1" value="1">
                                         <span class="d-flex"> <span>/</span> ${product.quantity}</span>
                                     </div>
-                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
+                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3 transparent-btn ">
                                         <img src="${base_url}/icons/product-add-icon.svg" width="40%" height="40%" class="" alt="Product-Add-Icon">
                                     </button>
                                 ` : product.type === 'custom' && product.quantity === -1 ? `
-                                    <span class="fw-bold">Quantity:</span>
+                                    <span class="fw-bold">Stock:</span>
                                     <div class="col-8 col-sm-8 col-md-8 d-flex card-qty">
                                         <input type="number" id="inputQuantity" min="1" class="form-control w-50" name="productQty" placeholder="1" value="1">
                                     </div>
-                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3">
+                                    <button type="submit" class="col-4 col-sm-4 col-md-4 button d-flex justify-content-end pe-3 transparent-btn ">
                                         <img src="${base_url}/icons/product-add-icon.svg" width="40%" height="40%" class="" alt="Product-Add-Icon">
                                     </button>
                                 ` : `

@@ -8,6 +8,10 @@
     <form class="row g-3" action="{{ route('sales-filter') }}" method="GET">
         @csrf
         <div class="col-md-6">
+            <label for="inputcustomername" class="form-label">Receipt No. #</label>
+            <input type="number" id="inputReceiptNo" class="form-control" placeholder="Receipt No." name="receipt-no">
+        </div>
+        <div class="col-md-6">
             <label for="inputcustomername" class="form-label">Customer Name</label>
             <input type="text" id="inputName" class="form-control" placeholder="Name" name="customer-name">
         </div>
@@ -49,7 +53,7 @@
     <div class="table-responsive p-5">
         @if(count($sales)<1)
             <tr>
-               <div class="fs-3 app-buttons-text text-center fw-bold "> No Product Found</div>
+               <div class="fs-3 text-primary text-center fw-bold "> No Product Found</div>
             </tr>
 
         @else
@@ -60,25 +64,26 @@
                 <div class="card-body row ">
                     <div class="col-md-3 ">
                         <div> No of Sales</div>
-                        <div class="app-buttons-text fs-4 mt-3"> {{count($sales)}}</div>
+                        <div class="text-primary fs-4 mt-3"> {{count($sales)}}</div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Sale Price</div>
-                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['total_sale_price'] }} </div>
+                        <div class="text-primary fs-4 mt-3">Rs {{ $saletotal['total_sale_price'] }} </div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Discount's</div>
-                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['total_disc'] }} </div>
+                        <div class="text-primary fs-4 mt-3">Rs {{ $saletotal['total_disc'] }} </div>
                     </div>
                     <div class="col-md-3 ">
                         <div>Total Profit</div>
-                        <div class="app-buttons-text fs-4 mt-3">Rs {{ $saletotal['profit'] }} </div>
+                        <div class="text-primary fs-4 mt-3">Rs {{ $saletotal['profit'] }} </div>
                     </div>
                 </div>
             </div>
         <table class="table table-hover my-5">
             <thead>
                 <tr>
+                    <th scope="col">Receipt No. #</th>
                     <th scope="col">Products</th>
                     <th scope="col">Date</th>
                     <th scope="col">Customer Name</th>
@@ -90,13 +95,16 @@
                 @foreach ($sales as $sale)
                     <tr>
                         <td> 
+                            {{ $sale->id}}
+                        </td>
+                        <td> 
                           @foreach($sale->productSales as $product) 
                             <div>{{$product->title}}</div>
                           @endforeach
-                        </th>
-                        <td> {{ $sale->sale_datetime }} </th>    
-                        <td> {{ $sale->customer->name }} </th>
-                        <td> {{ $sale->user->name }} </th>
+                        </td>
+                        <td> {{ $sale->sale_datetime }} </td>    
+                        <td> {{ isset($sale->customer->name) ? $sale->customer->name : "" }} </td>
+                        <td> {{ $sale->user->name }} </td>
                         <td>
                             @if($auth_user->hasPermissionTo('view sale'))
                                 <button type="button" class="btn btn-dark d-flex my-1">
@@ -106,7 +114,7 @@
                             <button type="button" class="btn btn-danger">
                                 <a href="{{ route('sales.print', [$sale->id]) }}" target="_blank">Print</a>
                             </button>
-                        </th>
+                        </td>
                     </tr>
                 @endforeach
                 

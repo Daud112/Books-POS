@@ -31,8 +31,9 @@ class SaleController extends Controller
 
         $sales = Sale::where('status', 'completed')
                     ->where('user_id', Auth::user()->id)
-                    ->whereBetween('sale_datetime', [$Today, $Today])
+                    // ->whereBetween('sale_datetime', [$Today, $Today])
                     ->with('productSales', 'customer', 'user')
+                    ->latest('sale_datetime')
                     ->get();
 
         $users = User::all();
@@ -52,7 +53,7 @@ class SaleController extends Controller
                 $saletotal['total_sale_price'] += $total_sale_price_raw;
             }
         }
-
+        // dd($sales);
         return view('pos.index', compact('sales','saletotal','users','user_id'));
     }
 
@@ -61,6 +62,7 @@ class SaleController extends Controller
         if(!Auth::check()){
             return view('auth.login');
         }
+        $receiptNo = $request->input('receipt-no');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
         $user_id = $request->input('selectedUserId');
@@ -69,9 +71,11 @@ class SaleController extends Controller
 
         // dd($customer_phone);
         $raw_sales = Sale::where('status', 'completed')
-                ->with('productSales', 'customer', 'user');
-
-        if ($customer_name) {
+                        ->latest('sale_datetime')
+                        ->with('productSales', 'customer', 'user');
+        if ($receiptNo) {
+            $raw_sales->where('id', $receiptNo);
+        } elseif ($customer_name) {
             $raw_sales->whereHas('customer', function ($customerQuery) use ($customer_name) {
                 $customerQuery->where('name', $customer_name);
             });
@@ -82,7 +86,7 @@ class SaleController extends Controller
         } elseif ($user_id !== "all" && $user_id > 0) {
             $raw_sales->where('user_id', $user_id);
         } elseif($startDate || $endDate) {
-            $raw_sales->whereBetween('sale_datetime', [$startDate, $endDate]);
+            $raw_sales->whereBetwween('sale_datetime', [$startDate, $endDate]);
         }
 
         $sales = $raw_sales->get();
@@ -347,61 +351,51 @@ class SaleController extends Controller
     public function returnSale(Request $request, string $id)
     {
         $data = $request->all();
-        $products_id = $data['product_id'];
-        $sale = Sale::where('id', $id)
-        ->with('productSales')
-        ->get();
-        foreach($products_id as $product_id){
-            $returned_qty = $data['return_stock_' . $product_id];
-            $product = Product::where('id',$product_id)->first();
-            $sold_product = ProductSale::where('product_id',$product_id)
-                                ->where('sale_id',$id)->first();
+        $sales_products = []; // Initialize an array to hold the results
+        foreach ($data as $key => $value) {
+            if (strpos($key, 'return_stock_') === 0) {
+                $productId = str_replace('return_stock_', '', $key);
 
-            $new_buyprice = $product->buy_price;
-            $new_saleprice = $product->sale_price-$product->disc;
-            $sold_buyprice = $sold_product->buy_price;
-            $sold_saleprice = $sold_product->sale_price-$sold_product->disc;
-
-            if($new_buyprice > $sold_buyprice && $new_saleprice >= $sold_saleprice){
-                $profit = ($new_buyprice-$sold_buyprice)* $returned_qty ;
-                $profit_data = [
-                    'profit'  => $profit,
-                    'product_sales_id' => $product_id,
-                    'sale_id' => $id
-                ];
-               
-                ExtraProfit::create($profit_data);
-                $product->quantity +=  $returned_qty;
-                $product->save();
-                $sold_product->quantity -= $returned_qty;
-                $sold_product->returned_qty += $returned_qty;
-                $sold_product->save();
-            }elseif(($new_buyprice > $sold_buyprice && $new_saleprice < $sold_saleprice) || ($new_buyprice < $sold_buyprice)){
-                
-                $buy_diff = $new_buyprice-$sold_buyprice;
-                $sale_diff = $new_saleprice-$sold_saleprice; 
-                $profit = ($buy_diff+$sale_diff)* $returned_qty ;
-                $profit_data = [
-                    'profit'  => $profit,
-                    'product_sales_id' => $product_id,
-                    'sale_id' => $id
-                ];
-                ExtraProfit::create($profit_data);
-                $product->quantity +=  $returned_qty;
-                $product->save();
-                $sold_product->quantity -= $returned_qty;
-                $sold_product->returned_qty += $returned_qty;
-                $sold_product->save();
-            }else{
-                //Update stock
-                $product->quantity +=  $sold_product->quantity;
-                $product->save();
-                $sold_product->quantity -= $returned_qty;
-                $sold_product->returned_qty += $returned_qty;
-                $sold_product->save();
+                if(isset($data['return_product_' . $productId]) && $data['return_product_' . $productId] == 1){
+                    $sales_products[$productId] = $value;
+                }
             }
         }
-        return redirect("sales")->withSuccess('Successfully return the product');
+        $sale = Sale::where('id', $id)
+                    ->with('productSales')->get();
+        // dd($data, empty($sales_products));
+        if(!empty($sales_products)){
+            foreach($sales_products as $sale_product_id => $returned_qty){
+                $sold_product = ProductSale::where('id',$sale_product_id)
+                ->where('sale_id',$id)->first();
+                if(!isset($sold_product)){
+                    return back()->withError('Products not returned');
+                }
+                $product_id = $sold_product->product_id;
+                $product = Product::where('id',$product_id)->first();
+                $new_buyprice = $product->buy_price;
+                $new_saleprice = $product->sale_price;
+                $sold_buyprice = $sold_product->buy_price;
+                $sold_saleprice = $sold_product->sale_price-$sold_product->disc;
+    
+                if($sold_product->quantity < 1){
+                    continue;
+                }
+
+
+                //Update stock
+                
+                $sold_product->quantity -= $returned_qty;
+                $sold_product->returned_qty += $returned_qty;
+                if($sold_product->save() && $product->type !== "custom"){
+                    $product->quantity +=  $returned_qty;
+                    $product->save();
+                }
+                return  back()->withSuccess('Successfully return the products.');
+            }
+        }
+        return back()->withSuccess('Please select checkbox to return.');
+
 
     }
 
