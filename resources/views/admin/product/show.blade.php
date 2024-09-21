@@ -37,10 +37,19 @@
                             <td> {{ $product->published_date }} </td>
                         </tr>
                     @endif
+                    
                 @endif
                 <tr>
                     <td> <span class="fw-bold">Status</span> </td>
                     <td> {{ $product->status }} </td>
+                </tr>
+                <tr>
+                    <td> <span class="fw-bold">Created at</span> </td>
+                    <td> {{ $product->created_at }} </td>
+                </tr>
+                <tr>
+                    <td> <span class="fw-bold">Updated at</span> </td>
+                    <td> {{ $product->updated_at }} </td>
                 </tr>
             </tbody>
         </table>
